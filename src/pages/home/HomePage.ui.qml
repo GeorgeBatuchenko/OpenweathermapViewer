@@ -1,14 +1,36 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import "../../components/currentweather"
+import "../../components/hourlyforecast"
+import "../../components/dailyforecast"
 
 Page {
-    width: 600
-    height: 400
+    id: homePage
 
     title: qsTr("OpenWheatherMap Viewer")
 
-    Label {
-        text: qsTr("You are on the home page.")
-        anchors.centerIn: parent
+    Flow {
+        id: flow1
+        anchors.fill: parent
+
+        Column {
+            CurrentWeatherItem {
+                id: curentWeatherItem
+            }
+            HourlyForecastItem {
+                id: hourlyForecastItem
+            }
+        }
+
+        DailyForecastItem {
+            id: dailyForecastItem
+        }
     }
+
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

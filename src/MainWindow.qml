@@ -1,6 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 
+import "pages/home"
+import "pages/cities"
+
 ApplicationWindow {
     id: window
     width: 640
@@ -30,6 +33,16 @@ ApplicationWindow {
         }
     }
 
+    Component {
+        id: homePage
+        HomePage {}
+    }
+
+    Component {
+        id: citiesPage
+        CitiesPage {}
+    }
+
     Drawer {
         id: drawer
         width: window.width * 0.33
@@ -42,7 +55,7 @@ ApplicationWindow {
                 text: qsTr("Choose city")
                 width: parent.width
                 onClicked: {
-                    stackView.push("pages/cities/CitiesPage.ui.qml")
+                    stackView.push(citiesPage)
                     drawer.close()
                 }
             }
@@ -51,7 +64,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "pages/home/HomePage.ui.qml"
+        initialItem: homePage
         anchors.fill: parent
     }
 }

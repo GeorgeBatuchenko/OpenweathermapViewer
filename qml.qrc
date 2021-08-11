@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/forms">
+        <file>src/MainWindow.qml</file>
+        <file>src/pages/cities/CitiesPage.ui.qml</file>
+        <file>src/pages/home/HomePage.ui.qml</file>
+        <file>src/components/currentweather/CurrentWeatherItem.ui.qml</file>
+        <file>src/components/hourlyforecast/HourlyForecastDelegate.ui.qml</file>
+        <file>src/components/hourlyforecast/HourlyForecastItem.ui.qml</file>
+        <file>src/components/dailyforecast/DailyForecastDelegate.ui.qml</file>
+        <file>src/components/dailyforecast/DailyForecastItem.ui.qml</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>images/10d.png</file>
+        <file>images/10d@2x.png</file>
+        <file>qtquickcontrols2.conf</file>
+    </qresource>
+</RCC>

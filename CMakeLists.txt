@@ -16,11 +16,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools REQUIRED)
 
-set(TS_FILES src/${PROJECT_NAME}_ru_RU.ts)
+set(TS_FILES ${PROJECT_NAME}_ru_RU.ts)
 
 set(PROJECT_SOURCES
         src/main.cpp
-        src/qml.qrc
+        qml.qrc
         ${TS_FILES}
 )
 
