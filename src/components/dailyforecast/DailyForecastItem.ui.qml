@@ -27,7 +27,7 @@ Item {
             Text {
                 id: itemHeader
                 color: "#dd000000"
-                text: qsTr("Hourly forecast")
+                text: qsTr("Daily forecast")
                 font.bold: true
                 font.pointSize: 14
             }

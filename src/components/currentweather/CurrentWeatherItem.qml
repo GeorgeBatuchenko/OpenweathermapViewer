@@ -1,9 +1,18 @@
 import QtQuick 2.4
+import QtQml 2.15
 import QtGraphicalEffects 1.12
+
+import OpenWeatherMapViewer 1.0
 
 Item {
     width: 450
     height: 190
+
+    Component.onCompleted: model.update();
+
+    CurrentWeatherModel {
+        id: model
+    }
 
     Rectangle {
         id: itemRectangle
@@ -14,6 +23,20 @@ Item {
         anchors.leftMargin: 4
         anchors.bottomMargin: 4
         anchors.topMargin: 4
+
+        function temperatureToText(temp) {
+            if(temp > 0) {
+                return qsTr("+") + Number(temp).toLocaleString(Qt.locale(),"f", 0) + qsTr("℃")
+            } if(temp < 0) {
+                return qsTr("-") + Number(temp).toLocaleString(Qt.locale(),"f", 0) + qsTr("℃")
+            } else {
+                return Number(temp).toLocaleString(Qt.locale(),"f", 0) + qsTr("℃")
+            }
+        }
+
+        function humadityToText(humidity) {
+                return Number(humidity).toLocaleString(Qt.locale(),"f", 0) + qsTr("%")
+        }
 
         Column {
             anchors.fill: parent
@@ -31,7 +54,7 @@ Item {
             Text {
                 id: city
                 color: "#dd000000"
-                text: "London"
+                text:  model.city
                 font.bold: true
                 font.pointSize: 24
             }
@@ -42,13 +65,13 @@ Item {
                     id: currentWeather
                     width: 80
                     height: 80
-                    source: "qrc:/images/10d@2x.png"
+                    source: model.iconFilePath
                 }
                 Text {
                     id: currentTemp
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#dd000000"
-                    text: "+15C"
+                    text: itemRectangle.temperatureToText(model.temperature)
                     font.pointSize: 32
                 }
                 Column {
@@ -63,7 +86,7 @@ Item {
                         Text {
                             id: windBlow
                             color: "#dd000000"
-                            text: "5m/s"
+                            text: model.windblow
                             font.pointSize: 12
                         }
                     }
@@ -77,7 +100,7 @@ Item {
                         Text {
                             id: humidity
                             color: "#dd000000"
-                            text: "85%"
+                            text: itemRectangle.humadityToText(model.humidity)
                             font.pointSize: 12
                         }
                     }
@@ -87,7 +110,7 @@ Item {
             Text {
                 id: aditionalInfo
                 color: "#dd000000"
-                text: "Feels like 16°C. Broken clouds. Light breeze."
+                text: model.description
                 wrapMode: Text.WordWrap
                 textFormat: Text.RichText
                 font.bold: true

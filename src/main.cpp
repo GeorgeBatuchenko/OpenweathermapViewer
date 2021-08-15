@@ -4,11 +4,21 @@
 #include <QLocale>
 #include <QTranslator>
 
+#include "components/currentweather/currentweathermodel.h"
+#include "components/openweathermapapiclient/openweathermapapiclient.h"
+
+//
+#include <QUrlQuery>
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
+
+	qRegisterMetaType<QJsonDocument>("QJsonDocument");
+	qRegisterMetaType<QUrl>("QUrl");
+	qmlRegisterType<CurrentWeatherModel>("OpenWeatherMapViewer", 1, 0, "CurrentWeatherModel");
 
 	QGuiApplication app(argc, argv);
 
@@ -30,6 +40,9 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 	engine.load(url);
+
+//	OpenWeatherMapApiClient* client = OpenWeatherMapApiClient::instance();
+//	client->weatherByCityId("524901","d3025cfd37cbd1ae614d1f41de1f40d9","EN");
 
 	return app.exec();
 }
