@@ -6,33 +6,35 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
-Q_LOGGING_CATEGORY(loggingCategory, "CurrentWeatherModel")
+namespace {
+	Q_LOGGING_CATEGORY(loggingCategory, "CurrentWeatherModel")
+}
 
 CurrentWeatherModel::CurrentWeatherModel(
 	QObject *parent,
-	AbstractOpenWeathermapApiClient* apiClient) :
+	AbstractOpenWeathermapApiClient* apiClient,
+	AbstractAppSettings* appSettings) :
 
 	QObject(parent),
-	m_apiClient(apiClient)
+	m_apiClient(apiClient),
+	m_appSettings(appSettings)
 {
 	setPropertiesByDefault();
 
 	connect(this, &CurrentWeatherModel::queryWeather, apiClient,  &AbstractOpenWeathermapApiClient::weatherByCityId);
-	connect(apiClient, &OpenWeatherMapApiClient::weatherByCityIdFetched, this, &CurrentWeatherModel::weatherFetched);
-
-//	m_city = "Moscow";
-//	m_temperature = 22;
-//	m_iconFilePath = "qrc:/images/10d@2x.png";
-//	m_description = "Hello world";
-//	m_humadity = 44;
-	//	m_windblow = "2.4 NE";
+	connect(apiClient, &AbstractOpenWeathermapApiClient::weatherByCityIdFetched, this, &CurrentWeatherModel::weatherFetched);
+	connect(apiClient, &AbstractOpenWeathermapApiClient::weatherByCityIdErrorOccured, this, &CurrentWeatherModel::weatherErrorOccured);
 }
 
 void CurrentWeatherModel::update()
 {
 	setPropertiesByDefault();
 
-	emit queryWeather("524901","d3025cfd37cbd1ae614d1f41de1f40d9","EN");
+	emit queryWeather(
+		m_appSettings->value("city_id").toString(),
+		m_appSettings->value("api_key").toString(),
+		m_appSettings->value("api_lang").toString()
+	);
 }
 
 void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
@@ -65,6 +67,7 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 	if (!checkField(windDeg,  QJsonValue::Type::Double,"wind:deg")) return;
 
 	m_city = city.toString();
+	// TODO helper method in api client for image url
 	m_iconFilePath = "http://openweathermap.org/img/wn/"+icon.toString() + "@2x.png";
 	m_description = tr("Feels like ") + QString::number(feels.toDouble(),'f',0) +"°C. " + desc;
 	m_humadity = humidity.toDouble();
@@ -84,7 +87,17 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 	emit descriptionChanged();
 	emit humidityChanged();
 	emit windblowChanged();
+}
 
+void CurrentWeatherModel::weatherErrorOccured(const AbstractOpenWeathermapApiClient::ApiError err)
+{
+	Q_UNUSED(err);
+
+	m_ready = true;
+	m_hasError = true;
+
+	emit readyChanged();
+	emit hasError();
 }
 
 void CurrentWeatherModel::setPropertiesByDefault()

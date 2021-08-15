@@ -4,3 +4,8 @@ AbstractOpenWeathermapApiClient::AbstractOpenWeathermapApiClient(QObject *parent
 {
 
 }
+
+AbstractOpenWeathermapApiClient::~AbstractOpenWeathermapApiClient()
+{
+
+}

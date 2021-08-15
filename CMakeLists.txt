@@ -28,6 +28,10 @@ set(PROJECT_SOURCES
         src/components/openweathermapapiclient/openweathermapapiclient.h
         src/components/openweathermapapiclient/abstractopenweathermapapiclient.cpp
         src/components/openweathermapapiclient/abstractopenweathermapapiclient.h
+        src/modules/appsettings/appsettings.h
+        src/modules/appsettings/appsettings.cpp
+        src/modules/appsettings/abstractappsettings.h
+        src/modules/appsettings/abstractappsettings.cpp
         qml.qrc
         ${TS_FILES}
 )

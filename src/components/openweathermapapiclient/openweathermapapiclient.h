@@ -11,7 +11,10 @@ class OpenWeatherMapApiClient : public AbstractOpenWeathermapApiClient
 {
 	Q_OBJECT
 public:
-	virtual ~OpenWeatherMapApiClient();
+	OpenWeatherMapApiClient(const OpenWeatherMapApiClient&) = delete;
+	OpenWeatherMapApiClient(OpenWeatherMapApiClient&&) = delete;
+
+	~OpenWeatherMapApiClient() override final;
 	static OpenWeatherMapApiClient* instance();
 
 public slots:
@@ -24,7 +27,7 @@ private slots:
 
 private:
 	explicit OpenWeatherMapApiClient(QObject *parent = nullptr);
-	bool checkApiResponse(const QJsonDocument& doc) const;
+	bool processApiResponse(QNetworkReply* reply, QJsonDocument& doc);
 
 	QScopedPointer<QNetworkAccessManager> m_netManager;
 };

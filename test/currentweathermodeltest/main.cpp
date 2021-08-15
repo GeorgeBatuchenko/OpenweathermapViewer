@@ -5,18 +5,35 @@
 #include <QFile>
 
 #include "components/currentweather/currentweathermodel.h"
-#include "components/openweathermapapiclient/abstractopenweathermapapiclient.h"
 
 static QByteArray jsonData;
+
+class AppSettingsMoc : public AbstractAppSettings {
+	Q_OBJECT
+public:
+	AppSettingsMoc() : AbstractAppSettings(nullptr) {}
+	~AppSettingsMoc() override final {}
+
+	QVariant value(const QString &key) const override final {
+		Q_UNUSED(key);
+		return QVariant();
+	}
+
+public slots:
+	void setValue(const QString &key, const QVariant &value) override final {
+		Q_UNUSED(key);
+		Q_UNUSED(value)
+	}
+};
 
 class ApiClientPositiveMoc : public AbstractOpenWeathermapApiClient {
 	Q_OBJECT
 public:
 	ApiClientPositiveMoc() : AbstractOpenWeathermapApiClient(nullptr) {}
-	~ApiClientPositiveMoc() override {}
+	~ApiClientPositiveMoc() override final {}
 
 public slots:
-	void weatherByCityId(QString id, QString apiKey, QString lang) override {
+	void weatherByCityId(QString id, QString apiKey, QString lang) override final {
 		Q_UNUSED(id);
 		Q_UNUSED(apiKey);
 		Q_UNUSED(lang);
@@ -29,10 +46,10 @@ class ApiClientBadJsonMoc : public AbstractOpenWeathermapApiClient {
 	Q_OBJECT
 public:
 	ApiClientBadJsonMoc() : AbstractOpenWeathermapApiClient(nullptr) {}
-	~ApiClientBadJsonMoc() override {}
+	~ApiClientBadJsonMoc() override final{}
 
 public slots:
-	void weatherByCityId(QString id, QString apiKey, QString lang) override {
+	void weatherByCityId(QString id, QString apiKey, QString lang) override final {
 		Q_UNUSED(id);
 		Q_UNUSED(apiKey);
 		Q_UNUSED(lang);
@@ -48,7 +65,7 @@ public:
 	ApiClientBadFieldMoc() : AbstractOpenWeathermapApiClient(nullptr) {
 		m_doc = QJsonDocument::fromJson(jsonData);
 	}
-	~ApiClientBadFieldMoc() override {}
+	~ApiClientBadFieldMoc() override final{}
 
 	template <class T>
 	void setName(const T& val) {
@@ -67,7 +84,7 @@ public:
 	}
 
 public slots:
-	void weatherByCityId(QString id, QString apiKey, QString lang) override {
+	void weatherByCityId(QString id, QString apiKey, QString lang) override final{
 		Q_UNUSED(id);
 		Q_UNUSED(apiKey);
 		Q_UNUSED(lang);
@@ -90,8 +107,9 @@ private slots:
 	}
 
 	void test_updatePositive() {
+		AppSettingsMoc settmoc;
 		ApiClientPositiveMoc apimoc;
-		CurrentWeatherModel model(&apimoc, &apimoc);
+		CurrentWeatherModel model(&apimoc, &apimoc, &settmoc);
 		model.update();
 
 		QVERIFY(model.ready());
@@ -105,8 +123,9 @@ private slots:
 	}
 
 	void test_updateWithBadJson() {
+		AppSettingsMoc settmoc;
 		ApiClientBadJsonMoc apimoc;
-		CurrentWeatherModel model(&apimoc, &apimoc);
+		CurrentWeatherModel model(&apimoc, &apimoc, &settmoc);
 		model.update();
 
 		QVERIFY(model.ready());
@@ -114,8 +133,9 @@ private slots:
 	}
 
 	void test_updateWithBadField() {
+		AppSettingsMoc settmoc;
 		ApiClientBadFieldMoc apimoc;
-		CurrentWeatherModel model(&apimoc, &apimoc);
+		CurrentWeatherModel model(&apimoc, &apimoc, &settmoc);
 
 		model.update();
 		QVERIFY(model.ready());

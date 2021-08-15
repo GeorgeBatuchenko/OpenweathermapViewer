@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDateTime>
 #include "../openweathermapapiclient/openweathermapapiclient.h"
+#include "../../modules/appsettings/appsettings.h"
 
 class QJsonDocument;
 
@@ -26,7 +27,8 @@ public:
 
 	explicit CurrentWeatherModel(
 		QObject *parent = nullptr,
-		AbstractOpenWeathermapApiClient* apiClient = OpenWeatherMapApiClient::instance());
+		AbstractOpenWeathermapApiClient* apiClient = OpenWeatherMapApiClient::instance(),
+		AbstractAppSettings* appSettings = AppSettings::instance());
 
 	QDateTime fetchingDateTime() const {return m_fetchingDateTime;}
 	QString city() const {return m_city;}
@@ -58,6 +60,7 @@ signals:
 
 private slots:
 	void weatherFetched(QJsonDocument doc);
+	void weatherErrorOccured(const AbstractOpenWeathermapApiClient::ApiError err);
 
 private:
 	void setPropertiesByDefault();
@@ -75,6 +78,7 @@ private:
 	bool m_hasError;
 
 	AbstractOpenWeathermapApiClient* m_apiClient;
+	AbstractAppSettings* m_appSettings;
 };
 
 #endif // CURRENTWEATHERMODEL_H
