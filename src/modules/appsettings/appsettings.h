@@ -7,15 +7,22 @@
 #include <QScopedPointer>
 #include "abstractappsettings.h"
 
+class QQmlEngine;
+class QJSEngine;
+
 class AppSettings : public AbstractAppSettings
 {
+	Q_OBJECT
 public:
 	AppSettings(AppSettings&) = delete;
 	AppSettings(AppSettings&&) = delete;
 
 	~AppSettings() override final;
 
-	static AppSettings* instance();
+	static AppSettings* instance(
+		QQmlEngine *engine = nullptr,
+		QJSEngine *scriptEngine = nullptr
+	);
 
 	QVariant value(const QString& key) const override final;
 

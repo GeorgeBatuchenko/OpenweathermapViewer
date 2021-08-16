@@ -23,7 +23,9 @@ CurrentWeatherModel::CurrentWeatherModel(
 
 	connect(this, &CurrentWeatherModel::queryWeather, apiClient,  &AbstractOpenWeathermapApiClient::weatherByCityId);
 	connect(apiClient, &AbstractOpenWeathermapApiClient::weatherByCityIdFetched, this, &CurrentWeatherModel::weatherFetched);
-	connect(apiClient, &AbstractOpenWeathermapApiClient::weatherByCityIdErrorOccured, this, &CurrentWeatherModel::weatherErrorOccured);
+	connect(apiClient, &AbstractOpenWeathermapApiClient::apiErrorOccured, this, &CurrentWeatherModel::weatherErrorOccured);
+
+	connect(appSettings, &AbstractAppSettings::settingsChanged, this, &CurrentWeatherModel::update);
 }
 
 void CurrentWeatherModel::update()

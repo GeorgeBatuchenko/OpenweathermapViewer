@@ -18,12 +18,14 @@ public:
 	static OpenWeatherMapApiClient* instance();
 
 public slots:
-	void weatherByCityId(QString id, QString apiKey, QString lang) override;
+	void weatherByCityId(QString id, QString apiKey, QString lang) override final;
+	void findCity(QString name, QString apiKey) override final;
 
 signals:
 
 private slots:
 	void weatherByCityIdFinished(QNetworkReply* reply);
+	void findCityReplyFinished(QNetworkReply* reply);
 
 private:
 	explicit OpenWeatherMapApiClient(QObject *parent = nullptr);

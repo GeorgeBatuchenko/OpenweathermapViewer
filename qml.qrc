@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/forms">
         <file>src/MainWindow.qml</file>
-        <file>src/pages/cities/CitiesPage.ui.qml</file>
-        <file>src/pages/home/HomePage.ui.qml</file>
+        <file>src/pages/cities/CitiesPage.qml</file>
+        <file>src/pages/home/HomePage.qml</file>
         <file>src/components/hourlyforecast/HourlyForecastDelegate.ui.qml</file>
         <file>src/components/hourlyforecast/HourlyForecastItem.ui.qml</file>
         <file>src/components/dailyforecast/DailyForecastDelegate.ui.qml</file>

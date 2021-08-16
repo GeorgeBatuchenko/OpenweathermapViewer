@@ -9,20 +9,25 @@ Item {
         id: itemRectangle
         color: "#ffffff"
         border.width: 0
-        anchors.fill: parent
+        anchors.right: parent.right
         anchors.rightMargin: 4
+        anchors.left: parent.left
         anchors.leftMargin: 4
+        anchors.bottom:  parent.bottom
         anchors.bottomMargin: 4
+        anchors.top: parent.top
         anchors.topMargin: 4
 
         Column {
             id: column
-            anchors.fill: parent
+            anchors.right: parent.right
             anchors.rightMargin: 16
+            anchors.left: parent.left
             anchors.leftMargin: 16
+            anchors.bottom:  parent.bottom
             anchors.bottomMargin: 16
+            anchors.top: parent.top
             anchors.topMargin: 16
-            spacing: 8
 
             Text {
                 id: itemHeader
@@ -73,7 +78,7 @@ Item {
                 delegate: Item {
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    height: 50;
+                    height: 50
                     //anchors.fill: parent
                     Row {
                         id: row1
@@ -99,7 +104,6 @@ Item {
                     }
                 }
             }
-
         }
     }
 

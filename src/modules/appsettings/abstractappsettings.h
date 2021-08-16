@@ -17,6 +17,7 @@ public slots:
 	virtual void setValue(const QString &key, const QVariant &value) = 0;
 
 signals:
+	void settingsChanged();
 
 };
 

@@ -5,9 +5,8 @@ import "../../components/hourlyforecast"
 import "../../components/dailyforecast"
 
 Page {
-    id: homePage
-
     title: qsTr("OpenWheatherMap Viewer")
+
 
     Flow {
         id: flow1

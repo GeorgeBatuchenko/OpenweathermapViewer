@@ -40,6 +40,8 @@ public slots:
 		auto doc = QJsonDocument::fromJson(jsonData);
 		emit weatherByCityIdFetched(doc);
 	}
+
+	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
 };
 
 class ApiClientBadJsonMoc : public AbstractOpenWeathermapApiClient {
@@ -57,6 +59,8 @@ public slots:
 		auto doc = QJsonDocument::fromJson(data);
 		emit weatherByCityIdFetched(doc);
 	}
+
+	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
 };
 
 class ApiClientBadFieldMoc : public AbstractOpenWeathermapApiClient {
@@ -90,6 +94,8 @@ public slots:
 		Q_UNUSED(lang);
 		emit weatherByCityIdFetched(m_doc);
 	}
+
+	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
 
 private:
 	QJsonDocument m_doc;

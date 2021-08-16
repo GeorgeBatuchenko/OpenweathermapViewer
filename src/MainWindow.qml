@@ -1,8 +1,11 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 
+import OpenWeatherMapViewer 1.0
+
 import "pages/home"
 import "pages/cities"
+import "pages/error"
 
 ApplicationWindow {
     id: window
@@ -10,6 +13,15 @@ ApplicationWindow {
     height: 480
     visible: true
     title: qsTr("OpenWheatherMap Viewer")
+
+    function changeCity( cityId ) {
+        AppSettings.setValue("city_id", cityId)
+        if (stackView.depth > 1) {
+            stackView.pop()
+        } else {
+            stackView.push(homePage)
+        }
+    }
 
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
@@ -35,12 +47,17 @@ ApplicationWindow {
 
     Component {
         id: homePage
-        HomePage {}
+        HomePage {
+
+        }
     }
 
     Component {
         id: citiesPage
-        CitiesPage {}
+        CitiesPage {
+            anchors.fill: parent
+            onCityChanged: changeCity(selectedCityId)
+        }
     }
 
     Drawer {

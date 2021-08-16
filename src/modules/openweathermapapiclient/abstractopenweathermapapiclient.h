@@ -38,14 +38,21 @@ public:
 		QString errorString;
 	};
 
+	static constexpr int HTTP_OK_CODE = 200;
+	static constexpr int HTTP_NOT_FOUND_CODE = 400;
+
 	explicit AbstractOpenWeathermapApiClient(QObject *parent = nullptr);
 	virtual ~AbstractOpenWeathermapApiClient();
 
 public slots:
 	virtual void weatherByCityId(QString id, QString apiKey, QString lang) = 0;
+	virtual void findCity(QString name, QString apiKey) = 0;
 signals:
 	void weatherByCityIdFetched(QJsonDocument);
-	void weatherByCityIdErrorOccured(const ApiError);
+	void findCityFinished(QJsonDocument);
+
+	void apiErrorOccured(const ApiError);
+
 };
 
 #endif // ABSTRACTOPENWEATHERMAPAPICLIENT_H

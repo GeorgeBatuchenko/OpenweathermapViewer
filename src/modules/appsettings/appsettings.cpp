@@ -3,7 +3,7 @@
 #include <QFile>
 
 AppSettings::AppSettings() :
-m_settings(new QSettings("appsettings.ini", QSettings::IniFormat))
+	m_settings(new QSettings("appsettings.ini", QSettings::IniFormat))
 {
 	QMutexLocker lock(&m_mutex);
 	if (!m_settings->contains("city_id") ||
@@ -29,17 +29,23 @@ void AppSettings::setDefaults()
 	m_settings->sync();
 }
 
-AppSettings* AppSettings::instance()
+AppSettings* AppSettings::instance(QQmlEngine* engine, QJSEngine* scriptEngine)
 {
-	static AppSettings settings;
-	return &settings;
+	Q_UNUSED(engine);
+	Q_UNUSED(scriptEngine);
+
+	static AppSettings* settings = new AppSettings();
+	return settings;
 }
 
 void AppSettings::setValue(const QString& key, const QVariant& value)
 {
-	QMutexLocker lock(&m_mutex);
-	m_settings->setValue(key, value);
-	m_settings->sync();
+	{
+		QMutexLocker lock(&m_mutex);
+		m_settings->setValue(key, value);
+		m_settings->sync();
+	}
+	emit settingsChanged();
 }
 
 QVariant AppSettings::value(const QString& key) const
