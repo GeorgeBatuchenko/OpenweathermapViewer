@@ -17,8 +17,8 @@ set(TEST_PROJECT_SOURCES
 	main.cpp
 	../../src/components/currentweather/currentweathermodel.cpp
 	../../src/components/currentweather/currentweathermodel.h
-	../../src/components/openweathermapapiclient/abstractopenweathermapapiclient.cpp
-	../../src/components/openweathermapapiclient/abstractopenweathermapapiclient.h
+	../../src/modules/openweathermapapiclient/abstractopenweathermapapiclient.cpp
+	../../src/modules/openweathermapapiclient/abstractopenweathermapapiclient.h
 	../../src/modules/appsettings/abstractappsettings.cpp
 	../../src/modules/appsettings/abstractappsettings.h
 )

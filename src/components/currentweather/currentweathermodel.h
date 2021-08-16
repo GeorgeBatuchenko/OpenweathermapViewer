@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QDateTime>
-#include "../openweathermapapiclient/openweathermapapiclient.h"
+#include "../../modules/openweathermapapiclient/openweathermapapiclient.h"
 #include "../../modules/appsettings/appsettings.h"
 
 class QJsonDocument;

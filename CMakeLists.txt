@@ -24,10 +24,10 @@ set(PROJECT_SOURCES
         src/main.cpp
         src/components/currentweather/currentweathermodel.cpp
         src/components/currentweather/currentweathermodel.h
-        src/components/openweathermapapiclient/openweathermapapiclient.cpp
-        src/components/openweathermapapiclient/openweathermapapiclient.h
-        src/components/openweathermapapiclient/abstractopenweathermapapiclient.cpp
-        src/components/openweathermapapiclient/abstractopenweathermapapiclient.h
+        src/modules/openweathermapapiclient/openweathermapapiclient.cpp
+        src/modules/openweathermapapiclient/openweathermapapiclient.h
+        src/modules/openweathermapapiclient/abstractopenweathermapapiclient.cpp
+        src/modules/openweathermapapiclient/abstractopenweathermapapiclient.h
         src/modules/appsettings/appsettings.h
         src/modules/appsettings/appsettings.cpp
         src/modules/appsettings/abstractappsettings.h
