@@ -5,9 +5,7 @@
 #include <QTranslator>
 
 #include "components/currentweather/currentweathermodel.h"
-#include "components/openweathermapapiclient/openweathermapapiclient.h"
 
-//
 #include <QUrlQuery>
 #include <QSettings>
 
@@ -41,13 +39,6 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 	engine.load(url);
-
-//	OpenWeatherMapApiClient* client = OpenWeatherMapApiClient::instance();
-//	client->weatherByCityId("524901","d3025cfd37cbd1ae614d1f41de1f40d9","EN");
-
-	QSettings sett("app.ini");
-	sett.setValue("value", "avalue");
-	sett.sync();
 
 	return app.exec();
 }
