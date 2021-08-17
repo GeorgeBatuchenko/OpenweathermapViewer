@@ -8,6 +8,28 @@
 
 namespace {
 	Q_LOGGING_CATEGORY(loggingCategory, "CurrentWeatherModel")
+
+	QString translateWindDirection(double dir) {
+		if (dir >= 0.0 && dir < 22.5) {
+			return QObject::tr("N");
+		} if (dir >= 22.5 && dir < 67.5) {
+			return QObject::tr("NE");
+		} if (dir >= 67.5 && dir < 112.5) {
+			return QObject::tr("E");
+		} if (dir >= 112.5 && dir < 157.5) {
+			return QObject::tr("SE");
+		} if (dir >= 157.5 && dir < 202.5) {
+			return QObject::tr("S");
+		} if (dir >= 202.5 && dir < 247.5) {
+			return QObject::tr("SW");
+		} if (dir >= 247.5 && dir < 292.5) {
+			return QObject::tr("W");
+		} if (dir >= 292.5 && dir < 337.5) {
+			return QObject::tr("NW");
+		} if (dir >= 337.5 && dir <= 360) {
+			return QObject::tr("N");
+		}
+	}
 }
 
 CurrentWeatherModel::CurrentWeatherModel(
@@ -67,7 +89,7 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 	auto windSpeed = root.value("wind").toObject().value("speed");
 	if (!checkField(windSpeed,  QJsonValue::Type::Double,"wind:speed")) return;
 
-	auto windDeg = root.value("wind").toObject().value("speed");
+	auto windDeg = root.value("wind").toObject().value("deg");
 	if (!checkField(windDeg,  QJsonValue::Type::Double,"wind:deg")) return;
 
 	qDebug(loggingCategory())<<"Json has been parsed successfuly";
@@ -78,13 +100,15 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 	m_description = tr("Feels like ") + QString::number(feels.toDouble(),'f',0) +"°C. " + desc;
 	m_humadity = humidity.toDouble();
 	m_temperature = temp.toDouble();
-	m_windblow = QString::number(windSpeed.toDouble(),'f',1) + tr("m/s, "); //TODO chose direction
+	m_windblow =
+		QString::number(windSpeed.toDouble(),'f',1) + tr("m/s, ") +
+		translateWindDirection(windDeg.toDouble());
 
 	m_ready = true;
 	m_hasError = false;
 
 	emit readyChanged();
-	emit hasError();
+	emit hasErrorChanged();
 
 	emit fetchingDateTimeChanged();
 	emit cityChanged();
@@ -133,27 +157,6 @@ void CurrentWeatherModel::setPropertiesByDefault()
 
 bool CurrentWeatherModel::checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path)
 {
-//	const auto setErrors = [this] () {
-//		m_hasError = true;
-//		emit hasErrorChanged();
-//		m_ready = true;
-//		emit readyChanged();
-//	};
-
-//	if (field.isUndefined()) {
-//		qInfo(loggingCategory())<<"Field "<<path<<" is not found in json.";
-//		setErrors();
-//		return false;
-//	}
-
-//	if (field.type() != targetType) {
-//		qInfo(loggingCategory())<<"Unexpected field type: "<<path;
-//		setErrors();
-//		return false;
-//	}
-
-//	return true;
-
 	using Api = AbstractOpenWeathermapApiClient;
 
 	const auto err = Api::checkField(field, targetType, path);

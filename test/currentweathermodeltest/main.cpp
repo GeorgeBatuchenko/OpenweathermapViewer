@@ -124,7 +124,7 @@ private slots:
 		QCOMPARE(model.iconFilePath(), "http://openweathermap.org/img/wn/01d@2x.png");
 		QCOMPARE(model.temperature(), 16.8);
 		QCOMPARE(model.humidity(), 69);
-		QCOMPARE(model.windblow(), "5.4m/s, ");
+		QCOMPARE(model.windblow(), "5.4m/s, W");
 		QCOMPARE(model.description(), "Feels like 16°C. Clear sky");
 	}
 
