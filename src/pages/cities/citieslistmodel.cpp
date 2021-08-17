@@ -74,7 +74,7 @@ void CitiesListModel::findCityFinished(QJsonDocument doc)
 	if (!checkField(name, QJsonValue::String, "name")) return;
 
 	auto id = doc.object().value("id");
-	if (!checkField(name, QJsonValue::Double, "name")) return;
+	if (!checkField(id, QJsonValue::Double, "id")) return;
 
 	appendItem( Item( name.toString(), QString::number(id.toInt()) ) );
 }
