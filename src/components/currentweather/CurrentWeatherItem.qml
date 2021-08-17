@@ -8,11 +8,8 @@ Item {
     width: 450
     height: 190
 
-    Component.onCompleted: model.update();
-
-    CurrentWeatherModel {
-        id: model
-    }
+    property var model
+    //Component.onCompleted: model.update()
 
     Rectangle {
         id: itemRectangle

@@ -1,4 +1,4 @@
-import QtQuick 2.12
+﻿import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 import OpenWeatherMapViewer 1.0
@@ -18,8 +18,15 @@ ApplicationWindow {
         AppSettings.setValue("city_id", cityId)
         if (stackView.depth > 1) {
             stackView.pop()
+        }
+    }
+
+    function switchToPage( page ) {
+        if (stackView.depth > 1) {
+            stackView.pop()
+            stackView.push(page)
         } else {
-            stackView.push(homePage)
+            stackView.push(page)
         }
     }
 
@@ -45,20 +52,32 @@ ApplicationWindow {
         }
     }
 
-    Component {
+    HomePage {
         id: homePage
-        HomePage {
-
+        onErrorOccured: {
+            errorPage.sourcePage = homePage
+            switchToPage(errorPage)
         }
     }
 
-    Component {
+     CitiesPage {
         id: citiesPage
-        CitiesPage {
-            anchors.fill: parent
-            onCityChanged: changeCity(selectedCityId)
+        anchors.fill: parent
+        onCityChanged: changeCity(selectedCityId)
+        onErrorOccured: {
+            errorPage.sourcePage = citiesPage
+            switchToPage(errorPage)
         }
     }
+
+     ErrorPage {
+         id: errorPage
+         anchors.fill: parent
+         onRetry: {
+             switchToPage(errorPage.sourcePage)
+             errorPage.sourcePage.updateModels()
+         }
+     }
 
     Drawer {
         id: drawer

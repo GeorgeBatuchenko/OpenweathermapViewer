@@ -11,6 +11,10 @@
 class CitiesListModel : public QAbstractListModel
 {
 	Q_OBJECT
+
+	Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
+	Q_PROPERTY(bool hasError READ hasError NOTIFY hasErrorChanged)
+
 public:
 	enum CitiesRoles {
 		NameRole = Qt::UserRole + 1,
@@ -30,12 +34,20 @@ public:
 
 	QHash<int, QByteArray> roleNames() const override final;
 
+	bool ready() const {return m_ready;}
+	bool hasError() const {return m_hasError;}
+
 public slots:
 	void update(QString cityName);
-	void findCityFinished(QJsonDocument doc);
-	void findCityErrorOccured(AbstractOpenWeathermapApiClient::ApiError err);
+
 signals:
 	void findCity(QString name, QString apiKey);
+	void readyChanged();
+	void hasErrorChanged();
+
+private slots:
+	void findCityFinished(QJsonDocument doc);
+	void findCityErrorOccured(AbstractOpenWeathermapApiClient::ApiError err);
 
 private:
 	struct Item {
@@ -51,6 +63,9 @@ private:
 	QList<Item> m_items;
 	AbstractOpenWeathermapApiClient* m_apiClient;
 	AbstractAppSettings* m_appSettings;
+
+	bool m_ready;
+	bool m_hasError;
 };
 
 #endif // CITIESLISTMODEL_H

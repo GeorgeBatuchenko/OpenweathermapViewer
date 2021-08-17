@@ -19,13 +19,16 @@ OpenWeatherMapApiClient::OpenWeatherMapApiClient(QObject *parent) :
 
 }
 
-bool OpenWeatherMapApiClient::processApiResponse(QNetworkReply* reply, QJsonDocument& doc)
+bool OpenWeatherMapApiClient::processApiResponse(
+	QNetworkReply* reply,
+	QJsonDocument& doc,
+	const std::function<void (const ApiError&)>& emitter)
 {
 	if (reply->bytesAvailable() == 0) {
 		QString errString = QString
 			("Empty response body has been recieved. (") + reply->url().toString() + ")";
 		qCritical(loggingCategory())<<errString;
-		emit apiErrorOccured( ApiError(
+		emitter( ApiError(
 			EmptyResponseBody,
 			-1,
 			QNetworkReply::NoError,
@@ -40,7 +43,7 @@ bool OpenWeatherMapApiClient::processApiResponse(QNetworkReply* reply, QJsonDocu
 		QString errString = QString
 			("Broken response body has been recieved. (") + reply->url().toString() + ")";
 		qCritical(loggingCategory())<<errString;
-		emit apiErrorOccured( ApiError(
+		emitter( ApiError(
 			BrokenResponseBody,
 			-1,
 			QNetworkReply::NoError,
@@ -56,7 +59,7 @@ bool OpenWeatherMapApiClient::processApiResponse(QNetworkReply* reply, QJsonDocu
 			("Bad json structure. (") + reply->url().toString()+ ": " +
 			doc.toJson(QJsonDocument::Compact);
 		qCritical(loggingCategory())<<errString;
-		emit apiErrorOccured({
+		emitter({
 			BadJsonStructure,
 			-1,
 			QNetworkReply::NoError,
@@ -72,7 +75,7 @@ bool OpenWeatherMapApiClient::processApiResponse(QNetworkReply* reply, QJsonDocu
 			("Response with error code received. (") + reply->url().toString() + ": " +
 			doc.toJson(QJsonDocument::Compact);
 		qCritical(loggingCategory())<<errString;
-		emit apiErrorOccured({
+		emitter({
 			ResponseWithErrorCode,
 			codeInt,
 			QNetworkReply::NoError,
@@ -117,12 +120,14 @@ void OpenWeatherMapApiClient::weatherByCityId(QString id, QString apiKey, QStrin
 
 void OpenWeatherMapApiClient::weatherByCityIdFinished(QNetworkReply* reply)
 {
+	const auto emitter = [this] (const ApiError& err) { emit weatherByCityIdErrorOccured(err); };
+
 	if (reply->error() != QNetworkReply::NoError) {
 		QString errString = "Network error occured on request: "+
 							reply->url().toString()+" "+reply->errorString();
 
 		qCritical(loggingCategory())<<errString;
-		emit apiErrorOccured(ApiError(
+		emitter(ApiError(
 			NetworkError,
 			-1,
 			reply->error(),
@@ -134,7 +139,7 @@ void OpenWeatherMapApiClient::weatherByCityIdFinished(QNetworkReply* reply)
 	}
 
 	QJsonDocument doc;
-	if (!processApiResponse(reply, doc)) {
+	if (!processApiResponse(reply, doc, emitter)) {
 		reply->deleteLater();
 		return;
 	}
@@ -163,12 +168,14 @@ void OpenWeatherMapApiClient::findCity(QString name, QString apiKey)
 
 void OpenWeatherMapApiClient::findCityReplyFinished(QNetworkReply* reply)
 {
+	const auto emitter = [this] (const ApiError& err) { emit findCityErrorOccured(err); };
+
 	if (reply->error() != QNetworkReply::NoError) {
 		QString errString = "Network error occured on request: "+
 							reply->url().toString()+" "+reply->errorString();
 
 		qCritical(loggingCategory())<<errString;
-		emit apiErrorOccured(ApiError(
+		emit emitter(ApiError(
 			NetworkError,
 			-1,
 			reply->error(),
@@ -180,7 +187,7 @@ void OpenWeatherMapApiClient::findCityReplyFinished(QNetworkReply* reply)
 	}
 
 	QJsonDocument doc;
-	if (!processApiResponse(reply, doc)) {
+	if (!processApiResponse(reply, doc, emitter)) {
 		reply->deleteLater();
 		return;
 	}

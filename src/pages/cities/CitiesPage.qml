@@ -4,15 +4,16 @@ import QtQuick.Controls 2.5
 import OpenWeatherMapViewer 1.0
 
 Page {
-//    width: 600
-//    height: 400
-
     title: qsTr("Choose city")
 
     signal cityChanged(string selectedCityId)
+    signal errorOccured()
+
+    function updateModels(){}
 
     CitiesListModel {
         id: citiesModel
+        onHasErrorChanged: if (hasError) errorOccured()
     }
 
     TextField {
@@ -49,9 +50,6 @@ Page {
         anchors.topMargin: 0
         anchors.bottomMargin: 0
 
-        //        model: ListModel {
-        //             ListElement { cityName: "some value" }
-        //        }
         model: citiesModel
 
         delegate: Rectangle {
@@ -84,7 +82,7 @@ Page {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked:  cityChanged(cityId)
+                onClicked: if (!citiesModel.hasError) cityChanged(cityId)
             }
         }
     }

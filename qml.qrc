@@ -8,6 +8,7 @@
         <file>src/components/dailyforecast/DailyForecastDelegate.ui.qml</file>
         <file>src/components/dailyforecast/DailyForecastItem.ui.qml</file>
         <file>src/components/currentweather/CurrentWeatherItem.qml</file>
+        <file>src/pages/error/ErrorPage.qml</file>
     </qresource>
     <qresource prefix="/">
         <file>images/10d.png</file>

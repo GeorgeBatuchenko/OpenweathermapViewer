@@ -6,6 +6,7 @@
 #include <QtNetwork/QNetworkReply>
 #include <QScopedPointer>
 #include <QUrl>
+#include <functional>
 
 class OpenWeatherMapApiClient : public AbstractOpenWeathermapApiClient
 {
@@ -29,7 +30,11 @@ private slots:
 
 private:
 	explicit OpenWeatherMapApiClient(QObject *parent = nullptr);
-	bool processApiResponse(QNetworkReply* reply, QJsonDocument& doc);
+
+	bool processApiResponse(QNetworkReply* reply,
+		QJsonDocument& doc,
+		const std::function<void (const ApiError&)>& emitter
+	);
 
 	QScopedPointer<QNetworkAccessManager> m_netManager;
 };

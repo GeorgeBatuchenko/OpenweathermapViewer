@@ -1,5 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+
+import OpenWeatherMapViewer 1.0
+
 import "../../components/currentweather"
 import "../../components/hourlyforecast"
 import "../../components/dailyforecast"
@@ -7,6 +10,16 @@ import "../../components/dailyforecast"
 Page {
     title: qsTr("OpenWheatherMap Viewer")
 
+    signal errorOccured();
+
+    function updateModels () {
+        currentWeatherModel.update()
+    }
+
+    CurrentWeatherModel {
+        id: currentWeatherModel
+        onHasErrorChanged: if (hasError) errorOccured()
+    }
 
     Flow {
         id: flow1
@@ -15,6 +28,7 @@ Page {
         Column {
             CurrentWeatherItem {
                 id: curentWeatherItem
+                model: currentWeatherModel
             }
             HourlyForecastItem {
                 id: hourlyForecastItem
@@ -24,8 +38,15 @@ Page {
         DailyForecastItem {
             id: dailyForecastItem
         }
+
     }
 
+    MouseArea {
+        anchors.fill: parent
+        onDoubleClicked: { updateModels() }
+    }
+
+    Component.onCompleted: updateModels()
 }
 
 /*##^##

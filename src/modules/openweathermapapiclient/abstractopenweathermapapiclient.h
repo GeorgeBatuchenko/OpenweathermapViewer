@@ -49,9 +49,10 @@ public slots:
 	virtual void findCity(QString name, QString apiKey) = 0;
 signals:
 	void weatherByCityIdFetched(QJsonDocument);
+	void weatherByCityIdErrorOccured(const ApiError);
 	void findCityFinished(QJsonDocument);
 
-	void apiErrorOccured(const ApiError);
+	void findCityErrorOccured(const ApiError);
 
 };
 

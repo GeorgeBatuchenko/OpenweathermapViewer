@@ -15,12 +15,14 @@ CitiesListModel::CitiesListModel(
 ) :
 	QAbstractListModel(parent),
 	m_apiClient(apiClient),
-	m_appSettings(appSettings)
+	m_appSettings(appSettings),
+	m_ready(false),
+	m_hasError(false)
 {
 	connect(this, &CitiesListModel::findCity, apiClient, &AbstractOpenWeathermapApiClient::findCity);
 	connect(apiClient, &AbstractOpenWeathermapApiClient::findCityFinished,
 			this, &CitiesListModel::findCityFinished);
-	connect(apiClient, &AbstractOpenWeathermapApiClient::apiErrorOccured,
+	connect(apiClient, &AbstractOpenWeathermapApiClient::findCityErrorOccured,
 			this, &CitiesListModel::findCityErrorOccured);
 }
 
@@ -81,12 +83,27 @@ void CitiesListModel::findCityErrorOccured(AbstractOpenWeathermapApiClient::ApiE
 		err.networkError == QNetworkReply::NetworkError::ContentNotFoundError) {
 			clear();
 			appendItem(Item(tr("Not found"), ""));
+
+			m_ready = true;
+			emit readyChanged();
+			m_hasError = false;
+			emit hasErrorChanged();
 		}
 	}
+
+	m_ready = true;
+	emit readyChanged();
+	m_hasError = true;
+	emit hasErrorChanged();
 }
 
 void CitiesListModel::clear()
 {
+	m_ready = false;
+	emit readyChanged();
+	m_hasError = false;
+	emit hasErrorChanged();
+
 	beginRemoveRows(QModelIndex(), 0, rowCount());
 	m_items.clear();
 	endRemoveRows();

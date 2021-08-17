@@ -23,13 +23,14 @@ CurrentWeatherModel::CurrentWeatherModel(
 
 	connect(this, &CurrentWeatherModel::queryWeather, apiClient,  &AbstractOpenWeathermapApiClient::weatherByCityId);
 	connect(apiClient, &AbstractOpenWeathermapApiClient::weatherByCityIdFetched, this, &CurrentWeatherModel::weatherFetched);
-	connect(apiClient, &AbstractOpenWeathermapApiClient::apiErrorOccured, this, &CurrentWeatherModel::weatherErrorOccured);
+	connect(apiClient, &AbstractOpenWeathermapApiClient::weatherByCityIdErrorOccured, this, &CurrentWeatherModel::weatherErrorOccured);
 
 	connect(appSettings, &AbstractAppSettings::settingsChanged, this, &CurrentWeatherModel::update);
 }
 
 void CurrentWeatherModel::update()
 {
+	qDebug(loggingCategory())<<"Start to update weater";
 	setPropertiesByDefault();
 
 	emit queryWeather(
@@ -41,6 +42,7 @@ void CurrentWeatherModel::update()
 
 void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 {
+	qDebug(loggingCategory())<<"Start parsing weather json";
 	auto root = doc.object();
 
 	auto city = root.value("name");
@@ -67,6 +69,8 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 
 	auto windDeg = root.value("wind").toObject().value("speed");
 	if (!checkField(windDeg,  QJsonValue::Type::Double,"wind:deg")) return;
+
+	qDebug(loggingCategory())<<"Json has been parsed successfuly";
 
 	m_city = city.toString();
 	// TODO helper method in api client for image url
@@ -95,11 +99,13 @@ void CurrentWeatherModel::weatherErrorOccured(const AbstractOpenWeathermapApiCli
 {
 	Q_UNUSED(err);
 
+	qCritical(loggingCategory())<<"Fetching weather error";
+
 	m_ready = true;
 	m_hasError = true;
 
 	emit readyChanged();
-	emit hasError();
+	emit hasErrorChanged();
 }
 
 void CurrentWeatherModel::setPropertiesByDefault()
