@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QVector>
 
 class AbstractAppSettings : public QObject
 {
@@ -12,6 +13,9 @@ public:
 	virtual ~AbstractAppSettings() override {}
 
 	virtual QVariant value(const QString& key) const = 0;
+
+	Q_INVOKABLE virtual void beginSetValues() {}
+	Q_INVOKABLE virtual void endSetValues() {}
 
 public slots:
 	virtual void setValue(const QString &key, const QVariant &value) = 0;

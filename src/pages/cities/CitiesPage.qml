@@ -13,7 +13,7 @@ Page {
 
     CitiesListModel {
         id: citiesModel
-        onHasErrorChanged: if (hasError) errorOccured()
+        onStateChanged: if (citiesModel.hasError()) errorOccured()
     }
 
     TextField {
@@ -68,8 +68,12 @@ Page {
             }
             height: 50
             color: "#c4c5c7"
+
+            required property int index
             required property string cityName
-            required property string cityId
+            required property int cityId
+            required property double cityLon
+            required property double cityLat
 
             Text {
                 anchors.left: parent.left
@@ -82,7 +86,12 @@ Page {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: if (!citiesModel.hasError) cityChanged(cityId)
+                onClicked: {
+                    if (!citiesModel.isNotFound()) {
+                        citiesModel.saveItem(index)
+                        cityChanged(cityId)
+                    }
+                }
             }
         }
     }

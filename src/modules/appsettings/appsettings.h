@@ -3,7 +3,7 @@
 
 #include <QSettings>
 #include <QVariant>
-#include <QMutex>
+#include <QRecursiveMutex>
 #include <QScopedPointer>
 #include "abstractappsettings.h"
 
@@ -34,7 +34,6 @@ private:
 	void setDefaults();
 
 	QScopedPointer<QSettings> m_settings;
-	QMutex m_mutex;
 };
 
 #endif // APPSETTINGS_H

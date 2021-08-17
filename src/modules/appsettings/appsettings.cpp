@@ -5,8 +5,7 @@
 AppSettings::AppSettings() :
 	m_settings(new QSettings("appsettings.ini", QSettings::IniFormat))
 {
-	QMutexLocker lock(&m_mutex);
-	if (!m_settings->contains("city_id") ||
+	if (!m_settings->contains("city") ||
 		!m_settings->contains("api_key") ||
 		!m_settings->contains("app_lang") ||
 		!m_settings->contains("api_lang")
@@ -22,11 +21,17 @@ AppSettings::~AppSettings()
 
 void AppSettings::setDefaults()
 {
-	m_settings->setValue("city_id", "524901"); // set to moscow
+	QVariantHash city;
+	city.insert("id", 524901); // Set to Moscow
+	city.insert("lon", 37.6156);
+	city.insert("lat", 55.7522);
+
+	m_settings->setValue("city", city);
 	m_settings->setValue("api_key", "");
 	m_settings->setValue("app_lang", "en_US");
 	m_settings->setValue("api_lang", "en");
 	m_settings->sync();
+	emit settingsChanged();
 }
 
 AppSettings* AppSettings::instance(QQmlEngine* engine, QJSEngine* scriptEngine)
@@ -40,11 +45,8 @@ AppSettings* AppSettings::instance(QQmlEngine* engine, QJSEngine* scriptEngine)
 
 void AppSettings::setValue(const QString& key, const QVariant& value)
 {
-	{
-		QMutexLocker lock(&m_mutex);
-		m_settings->setValue(key, value);
-		m_settings->sync();
-	}
+	m_settings->setValue(key, value);
+	m_settings->sync();
 	emit settingsChanged();
 }
 

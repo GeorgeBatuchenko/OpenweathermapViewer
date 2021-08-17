@@ -15,7 +15,6 @@ ApplicationWindow {
     title: qsTr("OpenWheatherMap Viewer")
 
     function changeCity( cityId ) {
-        AppSettings.setValue("city_id", cityId)
         if (stackView.depth > 1) {
             stackView.pop()
         }

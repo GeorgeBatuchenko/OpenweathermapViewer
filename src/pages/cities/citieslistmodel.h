@@ -8,17 +8,27 @@
 #include "../../modules/openweathermapapiclient/openweathermapapiclient.h"
 #include "../../modules/appsettings/appsettings.h"
 
+
 class CitiesListModel : public QAbstractListModel
 {
 	Q_OBJECT
 
-	Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
-	Q_PROPERTY(bool hasError READ hasError NOTIFY hasErrorChanged)
+	Q_PROPERTY(bool state READ state NOTIFY stateChanged)
 
 public:
 	enum CitiesRoles {
-		NameRole = Qt::UserRole + 1,
-		IdRole
+		IndexRole = Qt::UserRole + 1,
+		NameRole,
+		IdRole,
+		LongitudeRole,
+		LatitudeRole
+	};
+
+	enum State {
+		Ready,
+		Query,
+		Error,
+		NotFound
 	};
 
 	explicit CitiesListModel(
@@ -34,16 +44,19 @@ public:
 
 	QHash<int, QByteArray> roleNames() const override final;
 
-	bool ready() const {return m_ready;}
-	bool hasError() const {return m_hasError;}
+	State state() const {return m_state;}
+	Q_INVOKABLE bool isReady() {return m_state == Ready;}
+	Q_INVOKABLE bool isQuery() {return m_state == Query;}
+	Q_INVOKABLE bool hasError() {return m_state == Error;}
+	Q_INVOKABLE bool isNotFound() {return m_state == NotFound;}
 
 public slots:
 	void update(QString cityName);
+	void saveItem(int index);
 
 signals:
 	void findCity(QString name, QString apiKey);
-	void readyChanged();
-	void hasErrorChanged();
+	void stateChanged();
 
 private slots:
 	void findCityFinished(QJsonDocument doc);
@@ -51,14 +64,17 @@ private slots:
 
 private:
 	struct Item {
-		Item(const QString& _name, const QString& _id) :
-			name(_name), id(_id) {}
+		Item(int _index, const QString& _name, int _id, double _lon, double _lat) :
+			index(_index), name(_name), id(_id), lon(_lon), lat(_lat) {}
+		int index;
 		QString name;
-		QString id;
+		int id;
+		double lon;
+		double lat;
 	};
 
 	void clear();
-	void appendItem(const Item& item);
+	void appendItem(const QString& _name, int _id, double _lon, double _lat);
 
 	bool checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path );
 
@@ -66,8 +82,7 @@ private:
 	AbstractOpenWeathermapApiClient* m_apiClient;
 	AbstractAppSettings* m_appSettings;
 
-	bool m_ready;
-	bool m_hasError;
+	State m_state;
 };
 
 #endif // CITIESLISTMODEL_H

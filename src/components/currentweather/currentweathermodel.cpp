@@ -57,8 +57,9 @@ void CurrentWeatherModel::update()
 	qDebug(loggingCategory())<<"Start to update weater";
 	setPropertiesByDefault();
 
+	const auto city = m_appSettings->value("city").value<QVariantHash>();
 	emit queryWeather(
-		m_appSettings->value("city_id").toString(),
+		QString::number(city["id"].toInt()),
 		m_appSettings->value("api_key").toString(),
 		m_appSettings->value("api_lang").toString()
 	);
