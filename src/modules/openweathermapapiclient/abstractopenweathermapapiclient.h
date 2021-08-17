@@ -47,10 +47,15 @@ public:
 	static constexpr int HTTP_OK_CODE = 200;
 	static constexpr int HTTP_NOT_FOUND_CODE = 400;
 
+	static const QString WEATHER_URL_STRING;
+	static const QString ICON_URL_STRING;
+
 	explicit AbstractOpenWeathermapApiClient(QObject *parent = nullptr);
 	virtual ~AbstractOpenWeathermapApiClient();
 
 	static std::pair<FieldError, QString> checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path);
+	static QString makeHugeIconUrlString(const QString& icon);
+	static QString makeNormalIconUrlString(const QString& icon);
 
 public slots:
 	virtual void weatherByCityId(QString id, QString apiKey, QString lang) = 0;

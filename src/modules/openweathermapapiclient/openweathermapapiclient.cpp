@@ -103,7 +103,7 @@ void OpenWeatherMapApiClient::weatherByCityId(QString id, QString apiKey, QStrin
 {
 	Q_ASSERT(m_netManager);
 
-	QUrl url("https://api.openweathermap.org/data/2.5/weather");
+	QUrl url(WEATHER_URL_STRING);
 	QUrlQuery query;
 
 	query.addQueryItem("id", id);
@@ -153,7 +153,7 @@ void OpenWeatherMapApiClient::findCity(QString name, QString apiKey)
 {
 	Q_ASSERT(m_netManager);
 
-	QUrl url("https://api.openweathermap.org/data/2.5/weather");
+	QUrl url(WEATHER_URL_STRING);
 	QUrlQuery query;
 
 	query.addQueryItem("q", name);

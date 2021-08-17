@@ -29,6 +29,8 @@ namespace {
 		} if (dir >= 337.5 && dir <= 360) {
 			return QObject::tr("N");
 		}
+		Q_ASSERT(false);
+		return "";
 	}
 }
 
@@ -64,6 +66,7 @@ void CurrentWeatherModel::update()
 
 void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 {
+
 	qDebug(loggingCategory())<<"Start parsing weather json";
 	auto root = doc.object();
 
@@ -95,8 +98,7 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 	qDebug(loggingCategory())<<"Json has been parsed successfuly";
 
 	m_city = city.toString();
-	// TODO helper method in api client for image url
-	m_iconFilePath = "http://openweathermap.org/img/wn/"+icon.toString() + "@2x.png";
+	m_iconFilePath = m_apiClient->makeHugeIconUrlString( icon.toString() );
 	m_description = tr("Feels like ") + QString::number(feels.toDouble(),'f',0) +"°C. " + desc;
 	m_humadity = humidity.toDouble();
 	m_temperature = temp.toDouble();
