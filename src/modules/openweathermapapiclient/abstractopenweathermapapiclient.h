@@ -10,13 +10,19 @@ class AbstractOpenWeathermapApiClient : public QObject
 {
 	Q_OBJECT
 public:
-	enum ApiErrorType {
+	enum class ApiErrorType {
 		NoError = 0,
 		NetworkError,
 		EmptyResponseBody,
 		BrokenResponseBody,
 		BadJsonStructure,
 		ResponseWithErrorCode
+	};
+
+	enum class FieldError {
+		NoError = 0,
+		FieldNotFound,
+		UnexpectedFieldType
 	};
 
 	struct ApiError {
@@ -43,6 +49,8 @@ public:
 
 	explicit AbstractOpenWeathermapApiClient(QObject *parent = nullptr);
 	virtual ~AbstractOpenWeathermapApiClient();
+
+	static std::pair<FieldError, QString> checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path);
 
 public slots:
 	virtual void weatherByCityId(QString id, QString apiKey, QString lang) = 0;

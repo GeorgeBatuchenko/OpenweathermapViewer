@@ -60,6 +60,8 @@ private:
 	void clear();
 	void appendItem(const Item& item);
 
+	bool checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path );
+
 	QList<Item> m_items;
 	AbstractOpenWeathermapApiClient* m_apiClient;
 	AbstractAppSettings* m_appSettings;

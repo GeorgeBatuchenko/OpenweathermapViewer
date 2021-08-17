@@ -29,7 +29,7 @@ bool OpenWeatherMapApiClient::processApiResponse(
 			("Empty response body has been recieved. (") + reply->url().toString() + ")";
 		qCritical(loggingCategory())<<errString;
 		emitter( ApiError(
-			EmptyResponseBody,
+			ApiErrorType::EmptyResponseBody,
 			-1,
 			QNetworkReply::NoError,
 			reply->url(),
@@ -44,7 +44,7 @@ bool OpenWeatherMapApiClient::processApiResponse(
 			("Broken response body has been recieved. (") + reply->url().toString() + ")";
 		qCritical(loggingCategory())<<errString;
 		emitter( ApiError(
-			BrokenResponseBody,
+			ApiErrorType::BrokenResponseBody,
 			-1,
 			QNetworkReply::NoError,
 			reply->url(),
@@ -60,7 +60,7 @@ bool OpenWeatherMapApiClient::processApiResponse(
 			doc.toJson(QJsonDocument::Compact);
 		qCritical(loggingCategory())<<errString;
 		emitter({
-			BadJsonStructure,
+			ApiErrorType::BadJsonStructure,
 			-1,
 			QNetworkReply::NoError,
 			reply->url(),
@@ -76,7 +76,7 @@ bool OpenWeatherMapApiClient::processApiResponse(
 			doc.toJson(QJsonDocument::Compact);
 		qCritical(loggingCategory())<<errString;
 		emitter({
-			ResponseWithErrorCode,
+			ApiErrorType::ResponseWithErrorCode,
 			codeInt,
 			QNetworkReply::NoError,
 			reply->url(),
@@ -128,7 +128,7 @@ void OpenWeatherMapApiClient::weatherByCityIdFinished(QNetworkReply* reply)
 
 		qCritical(loggingCategory())<<errString;
 		emitter(ApiError(
-			NetworkError,
+			ApiErrorType::NetworkError,
 			-1,
 			reply->error(),
 			reply->url(),
@@ -176,7 +176,7 @@ void OpenWeatherMapApiClient::findCityReplyFinished(QNetworkReply* reply)
 
 		qCritical(loggingCategory())<<errString;
 		emit emitter(ApiError(
-			NetworkError,
+			ApiErrorType::NetworkError,
 			-1,
 			reply->error(),
 			reply->url(),

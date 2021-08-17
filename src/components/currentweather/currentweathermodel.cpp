@@ -133,22 +133,36 @@ void CurrentWeatherModel::setPropertiesByDefault()
 
 bool CurrentWeatherModel::checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path)
 {
-	const auto setErrors = [this] () {
+//	const auto setErrors = [this] () {
+//		m_hasError = true;
+//		emit hasErrorChanged();
+//		m_ready = true;
+//		emit readyChanged();
+//	};
+
+//	if (field.isUndefined()) {
+//		qInfo(loggingCategory())<<"Field "<<path<<" is not found in json.";
+//		setErrors();
+//		return false;
+//	}
+
+//	if (field.type() != targetType) {
+//		qInfo(loggingCategory())<<"Unexpected field type: "<<path;
+//		setErrors();
+//		return false;
+//	}
+
+//	return true;
+
+	using Api = AbstractOpenWeathermapApiClient;
+
+	const auto err = Api::checkField(field, targetType, path);
+	if (err.first != Api::FieldError::NoError) {
+		qCritical(loggingCategory())<<err.second;
 		m_hasError = true;
 		emit hasErrorChanged();
 		m_ready = true;
 		emit readyChanged();
-	};
-
-	if (field.isUndefined()) {
-		qInfo(loggingCategory())<<"Field "<<path<<" is not found in json.";
-		setErrors();
-		return false;
-	}
-
-	if (field.type() != targetType) {
-		qInfo(loggingCategory())<<"Unexpected field type: "<<path;
-		setErrors();
 		return false;
 	}
 

@@ -3,6 +3,7 @@
 #include <QLoggingCategory>
 #include <QJsonValue>
 #include <QJsonObject>
+#include <QTextStream>
 
 namespace {
 	Q_LOGGING_CATEGORY(loggingCategory, "CitiesListModel")
@@ -70,17 +71,22 @@ void CitiesListModel::update(QString cityName)
 void CitiesListModel::findCityFinished(QJsonDocument doc)
 {
 	auto name = doc.object().value("name");
+	if (!checkField(name, QJsonValue::String, "name")) return;
+
 	auto id = doc.object().value("id");
+	if (!checkField(name, QJsonValue::Double, "name")) return;
 
 	appendItem( Item( name.toString(), QString::number(id.toInt()) ) );
 }
 
 void CitiesListModel::findCityErrorOccured(AbstractOpenWeathermapApiClient::ApiError err)
 {
-	if (err.type == AbstractOpenWeathermapApiClient::ResponseWithErrorCode ||
-		err.type == AbstractOpenWeathermapApiClient::NetworkError) {
-		if (err.errorCode == AbstractOpenWeathermapApiClient::HTTP_NOT_FOUND_CODE ||
-		err.networkError == QNetworkReply::NetworkError::ContentNotFoundError) {
+	using Api = AbstractOpenWeathermapApiClient;
+	if (err.type == Api::ApiErrorType::ResponseWithErrorCode ||
+		err.type == Api::ApiErrorType::NetworkError) {
+		if (err.errorCode == Api::HTTP_NOT_FOUND_CODE ||
+			err.networkError == QNetworkReply::NetworkError::ContentNotFoundError) {
+
 			clear();
 			appendItem(Item(tr("Not found"), ""));
 
@@ -114,4 +120,22 @@ void CitiesListModel::appendItem(const Item& item)
 	beginInsertRows(QModelIndex(), rowCount(), rowCount());
 	m_items.append(item);
 	endInsertRows();
+}
+
+
+bool CitiesListModel::checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path)
+{
+	using Api = AbstractOpenWeathermapApiClient;
+
+	const auto err = Api::checkField(field, targetType, path);
+	if (err.first != Api::FieldError::NoError) {
+		qCritical(loggingCategory())<<err.second;
+		m_hasError = true;
+		emit hasErrorChanged();
+		m_ready = true;
+		emit readyChanged();
+		return false;
+	}
+
+	return true;
 }
