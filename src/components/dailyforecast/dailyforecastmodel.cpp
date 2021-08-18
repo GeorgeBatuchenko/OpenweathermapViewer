@@ -20,7 +20,7 @@ DailyForecastModel::DailyForecastModel(
 	m_appSettings(appSettings),
 	m_state(Ready)
 {
-	connect(this, &DailyForecastModel::queryDaylyForecast,
+	connect(this, &DailyForecastModel::queryDailyForecast,
 			apiClient, &AbstractOpenWeathermapApiClient::dailyForecast);
 	connect(apiClient, &AbstractOpenWeathermapApiClient::dailyForecastFetched,
 			this, &DailyForecastModel::dailyForecastFinished);
@@ -88,7 +88,7 @@ void DailyForecastModel::update()
 	const auto lat = city["lat"].toDouble(&conv);
 	Q_ASSERT(conv);
 
-	emit queryDaylyForecast(
+	emit queryDailyForecast(
 		lon,
 		lat,
 		m_appSettings->value("api_key").toString(),
