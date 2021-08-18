@@ -45,7 +45,7 @@ Item {
             Text {
                 id: fetchDateTime
                 color: "#eb6e4b"
-                text: "Aug 11, 08:33am"
+                text: model.fetchingDateTime
             }
 
             Text {

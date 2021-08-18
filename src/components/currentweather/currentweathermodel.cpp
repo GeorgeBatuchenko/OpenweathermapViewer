@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QLocale>
 
 namespace {
 	Q_LOGGING_CATEGORY(loggingCategory, "CurrentWeatherModel")
@@ -71,6 +72,9 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 	qDebug(loggingCategory())<<"Start parsing weather json";
 	auto root = doc.object();
 
+	auto dt = root.value("dt");
+	if (!checkField(dt, QJsonValue::Type::Double,"dt")) return;
+
 	auto city = root.value("name");
 	if (!checkField(city, QJsonValue::Type::String,"name")) return;
 
@@ -97,6 +101,11 @@ void CurrentWeatherModel::weatherFetched(QJsonDocument doc)
 	if (!checkField(windDeg,  QJsonValue::Type::Double,"wind:deg")) return;
 
 	qDebug(loggingCategory())<<"Json has been parsed successfuly";
+
+	m_fetchingDateTime = QLocale().toString(
+		QDateTime::fromSecsSinceEpoch(dt.toDouble()),
+		"MMM dd, hh:mm"
+	);
 
 	m_city = city.toString();
 	m_iconFilePath = m_apiClient->makeHugeIconUrlString( icon.toString() );
@@ -137,7 +146,7 @@ void CurrentWeatherModel::weatherErrorOccured(const AbstractOpenWeathermapApiCli
 
 void CurrentWeatherModel::setPropertiesByDefault()
 {
-	m_fetchingDateTime = QDateTime();
+	m_fetchingDateTime = "-";
 	emit fetchingDateTimeChanged();
 	m_city = "-";
 	emit cityChanged();

@@ -20,6 +20,9 @@ int main(int argc, char *argv[])
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+	QLocale locale(QLocale("en_US"));
+	QLocale::setDefault(locale);
+
 	qRegisterMetaType<QJsonDocument>("QJsonDocument");
 	qRegisterMetaType<QUrl>("QUrl");
 	qmlRegisterType<CurrentWeatherModel>("OpenWeatherMapViewer", 1, 0, "CurrentWeatherModel");

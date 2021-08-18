@@ -12,7 +12,7 @@ class CurrentWeatherModel : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QDateTime fetchingDateTime READ fetchingDateTime NOTIFY fetchingDateTimeChanged)
+	Q_PROPERTY(QString fetchingDateTime READ fetchingDateTime NOTIFY fetchingDateTimeChanged)
 	Q_PROPERTY(QString city READ city NOTIFY cityChanged)
 	Q_PROPERTY(QString iconFilePath READ iconFilePath NOTIFY iconFilePathChanged)
 	Q_PROPERTY(double temperature READ temperature NOTIFY temperatureChanged)
@@ -30,7 +30,7 @@ public:
 		AbstractOpenWeathermapApiClient* apiClient = OpenWeatherMapApiClient::instance(),
 		AbstractAppSettings* appSettings = AppSettings::instance());
 
-	QDateTime fetchingDateTime() const {return m_fetchingDateTime;}
+	QString fetchingDateTime() const {return m_fetchingDateTime;}
 	QString city() const {return m_city;}
 	QString iconFilePath() const {return m_iconFilePath;}
 	double temperature() const {return m_temperature;}
@@ -67,7 +67,7 @@ private:
 
 	bool checkField(const QJsonValue& field, QJsonValue::Type targetType, const QString& path );
 
-	QDateTime m_fetchingDateTime;
+	QString m_fetchingDateTime;
 	QString m_city;
 	QString m_iconFilePath;
 	double m_temperature;
