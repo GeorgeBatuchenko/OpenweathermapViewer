@@ -71,7 +71,7 @@ QHash<int, QByteArray> HourlyForecastModel::roleNames() const
 
 void HourlyForecastModel::update()
 {
-	qDebug(loggingCategory())<<"Start to update daily forecast";
+	qDebug(loggingCategory())<<"Start to update hourly forecast";
 
 	clear();
 	m_state = Query;

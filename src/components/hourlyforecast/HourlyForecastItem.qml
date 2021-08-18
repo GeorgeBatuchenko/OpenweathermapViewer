@@ -39,14 +39,13 @@ Item {
         anchors.bottomMargin: 4
         anchors.topMargin: 4
 
-        Column {
+        Rectangle {
             id: column
             anchors.fill: parent
             anchors.rightMargin: 16
             anchors.leftMargin: 4
             anchors.bottomMargin: 16
             anchors.topMargin: 16
-            spacing: 8
 
             Text {
                 id: textHeader
@@ -71,7 +70,7 @@ Item {
                 anchors.top: textHeader.bottom
                 anchors.rightMargin: 16
                 anchors.leftMargin: 12
-                anchors.topMargin: -10
+                anchors.topMargin: -12
                 font.pointSize: 12
                 height: 18
             }
@@ -104,8 +103,8 @@ Item {
                         Item {
                             width: 70
                             height: 18
+                            anchors.horizontalCenter: weather.horizontalCenter
                             Row {
-                                anchors.horizontalCenter: weather.horizontalCenter
                                 Text {
                                     width: 12
                                 }
@@ -117,10 +116,10 @@ Item {
                             }
                         }
                         Item {
+                            id: weather
                             width: 70
                             height: 52
                             Row {
-                                id: weather
                                 Image {
                                     width: 50
                                     height: 50
