@@ -14,12 +14,22 @@ Page {
 
     function updateModels () {
         currentWeatherModel.update()
+        dailyForecastModel.update()
     }
 
     CurrentWeatherModel {
         id: currentWeatherModel
         onHasErrorChanged: if (hasError) errorOccured()
     }
+
+    DailyForecastModel {
+        id: dailyForecastModel
+        onStateChanged: {
+            if (hasError()) errorOccured()
+            dailyForecastItem.setLoadingState(isQuery());
+        }
+    }
+
 
     Flow {
         id: flow1
@@ -37,6 +47,7 @@ Page {
 
         DailyForecastItem {
             id: dailyForecastItem
+            forecastModel: dailyForecastModel
         }
 
     }

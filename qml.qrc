@@ -5,8 +5,7 @@
         <file>src/pages/home/HomePage.qml</file>
         <file>src/components/hourlyforecast/HourlyForecastDelegate.ui.qml</file>
         <file>src/components/hourlyforecast/HourlyForecastItem.ui.qml</file>
-        <file>src/components/dailyforecast/DailyForecastDelegate.ui.qml</file>
-        <file>src/components/dailyforecast/DailyForecastItem.ui.qml</file>
+        <file>src/components/dailyforecast/DailyForecastItem.qml</file>
         <file>src/components/currentweather/CurrentWeatherItem.qml</file>
         <file>src/pages/error/ErrorPage.qml</file>
     </qresource>

@@ -3,6 +3,7 @@
 #include <QTextStream>
 
 const QString AbstractOpenWeathermapApiClient::WEATHER_URL_STRING = "https://api.openweathermap.org/data/2.5/weather";
+const QString AbstractOpenWeathermapApiClient::FORECAST_URL_STRING = "https://api.openweathermap.org/data/2.5/onecall";
 const QString AbstractOpenWeathermapApiClient::ICON_URL_STRING = "http://openweathermap.org/img/wn/";
 
 AbstractOpenWeathermapApiClient::AbstractOpenWeathermapApiClient(QObject *parent) : QObject(parent)

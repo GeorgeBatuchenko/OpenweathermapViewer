@@ -48,6 +48,7 @@ public:
 	static constexpr int HTTP_NOT_FOUND_CODE = 400;
 
 	static const QString WEATHER_URL_STRING;
+	static const QString FORECAST_URL_STRING;
 	static const QString ICON_URL_STRING;
 
 	explicit AbstractOpenWeathermapApiClient(QObject *parent = nullptr);
@@ -60,12 +61,16 @@ public:
 public slots:
 	virtual void weatherByCityId(QString id, QString apiKey, QString lang) = 0;
 	virtual void findCity(QString name, QString apiKey) = 0;
+	virtual void dailyForecast(double lon, double lat, QString apiKey, QString lang) = 0;
 signals:
 	void weatherByCityIdFetched(QJsonDocument);
 	void weatherByCityIdErrorOccured(const ApiError);
-	void findCityFinished(QJsonDocument);
 
+	void findCityFinished(QJsonDocument);
 	void findCityErrorOccured(const ApiError);
+
+	void dailyForecastFetched(QJsonDocument);
+	void dailyForecastErrorOccured(const ApiError);
 
 };
 

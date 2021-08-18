@@ -42,6 +42,8 @@ public slots:
 	}
 
 	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
+	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final
+	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
 };
 
 class ApiClientBadJsonMoc : public AbstractOpenWeathermapApiClient {
@@ -61,6 +63,8 @@ public slots:
 	}
 
 	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
+	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final
+	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
 };
 
 class ApiClientBadFieldMoc : public AbstractOpenWeathermapApiClient {
@@ -96,6 +100,8 @@ public slots:
 	}
 
 	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
+	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final
+	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
 
 private:
 	QJsonDocument m_doc;

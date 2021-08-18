@@ -7,6 +7,7 @@
 
 #include "modules/appsettings/appsettings.h"
 #include "components/currentweather/currentweathermodel.h"
+#include "components/dailyforecast/dailyforecastmodel.h"
 #include "pages/cities/citieslistmodel.h"
 
 #include <QUrlQuery>
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
 	qRegisterMetaType<QJsonDocument>("QJsonDocument");
 	qRegisterMetaType<QUrl>("QUrl");
 	qmlRegisterType<CurrentWeatherModel>("OpenWeatherMapViewer", 1, 0, "CurrentWeatherModel");
+	qmlRegisterType<DailyForecastModel>("OpenWeatherMapViewer", 1, 0, "DailyForecastModel");
 	qmlRegisterType<CitiesListModel>("OpenWeatherMapViewer", 1, 0, "CitiesListModel");
 
 	QGuiApplication app(argc, argv);

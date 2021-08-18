@@ -21,17 +21,24 @@ public:
 public slots:
 	void weatherByCityId(QString id, QString apiKey, QString lang) override final;
 	void findCity(QString name, QString apiKey) override final;
+	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final;
 
 signals:
 
 private slots:
 	void weatherByCityIdFinished(QNetworkReply* reply);
 	void findCityReplyFinished(QNetworkReply* reply);
+	void dailyForecastFinished(QNetworkReply* reply);
 
 private:
 	explicit OpenWeatherMapApiClient(QObject *parent = nullptr);
 
 	bool processApiResponse(QNetworkReply* reply,
+		QJsonDocument& doc,
+		const std::function<void (const ApiError&)>& emitter
+	);
+
+	bool processOneCallApiResponse(QNetworkReply* reply,
 		QJsonDocument& doc,
 		const std::function<void (const ApiError&)>& emitter
 	);

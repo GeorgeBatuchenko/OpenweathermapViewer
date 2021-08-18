@@ -9,7 +9,6 @@
 
 namespace {
 	Q_LOGGING_CATEGORY(loggingCategory, "OpenWeatherMapApiClient")
-
 }
 
 OpenWeatherMapApiClient::OpenWeatherMapApiClient(QObject *parent) :
@@ -82,6 +81,40 @@ bool OpenWeatherMapApiClient::processApiResponse(
 			reply->url(),
 			errString
 		});
+		return false;
+	}
+
+	return true;
+}
+
+bool OpenWeatherMapApiClient::processOneCallApiResponse(QNetworkReply* reply, QJsonDocument& doc, const std::function<void (const ApiError&)>& emitter)
+{
+	if (reply->bytesAvailable() == 0) {
+		QString errString = QString
+			("Empty response body has been recieved. (") + reply->url().toString() + ")";
+		qCritical(loggingCategory())<<errString;
+		emitter( ApiError(
+			ApiErrorType::EmptyResponseBody,
+			-1,
+			QNetworkReply::NoError,
+			reply->url(),
+			errString
+		));
+		return false;
+	}
+
+	doc = QJsonDocument::fromJson(reply->readAll());
+	if (doc.isNull() || doc.isEmpty()) {
+		QString errString = QString
+			("Broken response body has been recieved. (") + reply->url().toString() + ")";
+		qCritical(loggingCategory())<<errString;
+		emitter( ApiError(
+			ApiErrorType::BrokenResponseBody,
+			-1,
+			QNetworkReply::NoError,
+			reply->url(),
+			errString
+		));
 		return false;
 	}
 
@@ -168,6 +201,7 @@ void OpenWeatherMapApiClient::findCity(QString name, QString apiKey)
 
 void OpenWeatherMapApiClient::findCityReplyFinished(QNetworkReply* reply)
 {
+
 	const auto emitter = [this] (const ApiError& err) { emit findCityErrorOccured(err); };
 
 	if (reply->error() != QNetworkReply::NoError) {
@@ -194,4 +228,55 @@ void OpenWeatherMapApiClient::findCityReplyFinished(QNetworkReply* reply)
 
 	reply->deleteLater();
 	emit findCityFinished(doc);
+}
+
+void OpenWeatherMapApiClient::dailyForecast(double lon, double lat, QString apiKey, QString lang)
+{
+	Q_ASSERT(m_netManager);
+
+	QUrl url(FORECAST_URL_STRING);
+	QUrlQuery query;
+
+	query.addQueryItem("lon", QString::number(lon));
+	query.addQueryItem("lat", QString::number(lat));
+	query.addQueryItem("appid", apiKey);
+	query.addQueryItem("lang", lang);
+	query.addQueryItem("units", "metric");
+	query.addQueryItem("exclude", "current,minutely,hourly,alerts");
+	url.setQuery(query);
+
+	QNetworkReply *reply = m_netManager->get(QNetworkRequest(url));
+	Q_ASSERT(reply != nullptr);
+
+	connect(reply, &QNetworkReply::finished, this, [this, reply] () {dailyForecastFinished(reply);} );
+}
+
+void OpenWeatherMapApiClient::dailyForecastFinished(QNetworkReply* reply)
+{
+	const auto emitter = [this] (const ApiError& err) { emit dailyForecastErrorOccured(err); };
+
+	if (reply->error() != QNetworkReply::NoError) {
+		QString errString = "Network error occured on request: "+
+							reply->url().toString()+" "+reply->errorString();
+
+		qCritical(loggingCategory())<<errString;
+		emit emitter(ApiError(
+			ApiErrorType::NetworkError,
+			-1,
+			reply->error(),
+			reply->url(),
+			errString
+		));
+		reply->deleteLater();
+		return;
+	}
+
+	QJsonDocument doc;
+	if (!processOneCallApiResponse(reply, doc, emitter)) {
+		reply->deleteLater();
+		return;
+	}
+
+	reply->deleteLater();
+	emit dailyForecastFetched(doc);
 }
