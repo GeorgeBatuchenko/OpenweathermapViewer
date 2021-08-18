@@ -123,7 +123,6 @@ void DailyForecastModel::dailyForecastFinished(QJsonDocument doc)
 		if (!checkField(desc, QJsonValue::String, "daily:weather:description")) return;
 
 		const auto temp = f.toObject().value("temp").toObject().value("day");
-		qDebug()<<"temp "<<temp;
 		if (!checkField(temp, QJsonValue::Double, "daily:temp:day")) return;
 
 		QString capitalDesc = desc.toString();

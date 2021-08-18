@@ -53,7 +53,7 @@ public slots:
 	void update();
 
 signals:
-	void queryDaylyForecast(double lon, double lat, QString apiKey, QString lang);
+	void queryDailyForecast(double lon, double lat, QString apiKey, QString lang);
 	void stateChanged();
 
 private slots:

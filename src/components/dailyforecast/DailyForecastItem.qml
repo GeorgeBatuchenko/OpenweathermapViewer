@@ -42,8 +42,9 @@ Item {
         anchors.top: parent.top
         anchors.topMargin: 4
 
-        Column {
+        Item {
             id: column
+            anchors.fill: parent
             anchors.right: parent.right
             anchors.rightMargin: 16
             anchors.left: parent.left
@@ -61,9 +62,6 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
-                anchors.rightMargin: 0
-                anchors.leftMargin: 0
-                anchors.topMargin: 0
                 font.bold: true
                 font.pointSize: 14
             }
@@ -75,9 +73,6 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: itemHeader.bottom
-                anchors.rightMargin: 0
-                anchors.leftMargin: 0
-                anchors.topMargin: 0
                 font.pointSize: 12
             }
 
@@ -87,14 +82,12 @@ Item {
                 anchors.right: parent.right
                 anchors.top: itemHeader.bottom
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: 16
+                 anchors.bottomMargin: 16
 
                 model: forecastModel
 
                 delegate: Item {
                     id: itemDelegate
-                    anchors.left: parent.left
-                    anchors.right: parent.right
                     height: 50
 
                     required property string date
@@ -108,7 +101,6 @@ Item {
                         anchors.right: itemDelegate.right
                         anchors.rightMargin: 0
                         anchors.leftMargin: 0
-
 
                         Text {
                             anchors.verticalCenter: icon.verticalCenter
