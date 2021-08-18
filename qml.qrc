@@ -3,8 +3,7 @@
         <file>src/MainWindow.qml</file>
         <file>src/pages/cities/CitiesPage.qml</file>
         <file>src/pages/home/HomePage.qml</file>
-        <file>src/components/hourlyforecast/HourlyForecastDelegate.ui.qml</file>
-        <file>src/components/hourlyforecast/HourlyForecastItem.ui.qml</file>
+        <file>src/components/hourlyforecast/HourlyForecastItem.qml</file>
         <file>src/components/dailyforecast/DailyForecastItem.qml</file>
         <file>src/components/currentweather/CurrentWeatherItem.qml</file>
         <file>src/pages/error/ErrorPage.qml</file>

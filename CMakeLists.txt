@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
         src/components/currentweather/currentweathermodel.h
         src/components/dailyforecast/dailyforecastmodel.cpp
         src/components/dailyforecast/dailyforecastmodel.h
+        src/components/hourlyforecast/hourlyforecastmodel.cpp
+        src/components/hourlyforecast/hourlyforecastmodel.h
         src/pages/cities/citieslistmodel.cpp
         src/pages/cities/citieslistmodel.h
         src/modules/openweathermapapiclient/openweathermapapiclient.cpp

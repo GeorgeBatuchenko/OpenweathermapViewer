@@ -15,6 +15,7 @@ Page {
     function updateModels () {
         currentWeatherModel.update()
         dailyForecastModel.update()
+        hourlyForecastModel.update()
     }
 
     CurrentWeatherModel {
@@ -30,6 +31,13 @@ Page {
         }
     }
 
+    HourlyForecastModel {
+        id: hourlyForecastModel
+        onStateChanged: {
+            if (hasError()) errorOccured()
+            hourlyForecastItem.setLoadingState(isQuery());
+        }
+    }
 
     Flow {
         id: flow1
@@ -42,6 +50,7 @@ Page {
             }
             HourlyForecastItem {
                 id: hourlyForecastItem
+                forecastModel: hourlyForecastModel
             }
         }
 

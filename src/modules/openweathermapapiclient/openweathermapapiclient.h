@@ -22,6 +22,7 @@ public slots:
 	void weatherByCityId(QString id, QString apiKey, QString lang) override final;
 	void findCity(QString name, QString apiKey) override final;
 	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final;
+	void hourlyForecast(double lon, double lat, QString apiKey, QString lang) override final;
 
 signals:
 
@@ -29,6 +30,7 @@ private slots:
 	void weatherByCityIdFinished(QNetworkReply* reply);
 	void findCityReplyFinished(QNetworkReply* reply);
 	void dailyForecastFinished(QNetworkReply* reply);
+	void hourlyForecastFinished(QNetworkReply* reply);
 
 private:
 	explicit OpenWeatherMapApiClient(QObject *parent = nullptr);

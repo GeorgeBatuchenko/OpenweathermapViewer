@@ -42,7 +42,11 @@ public slots:
 	}
 
 	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
+
 	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final
+	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
+
+	void hourlyForecast(double lon, double lat, QString apiKey, QString lang) override final
 	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
 };
 
@@ -63,7 +67,11 @@ public slots:
 	}
 
 	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
+
 	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final
+	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
+
+	void hourlyForecast(double lon, double lat, QString apiKey, QString lang) override final
 	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
 };
 
@@ -100,7 +108,11 @@ public slots:
 	}
 
 	void findCity(QString name, QString apiKey) override final{ Q_UNUSED(name);Q_UNUSED(apiKey);}
+
 	void dailyForecast(double lon, double lat, QString apiKey, QString lang) override final
+	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
+
+	void hourlyForecast(double lon, double lat, QString apiKey, QString lang) override final
 	{ Q_UNUSED(lon);Q_UNUSED(lat); Q_UNUSED(apiKey);Q_UNUSED(lang);}
 
 private:

@@ -62,6 +62,7 @@ public slots:
 	virtual void weatherByCityId(QString id, QString apiKey, QString lang) = 0;
 	virtual void findCity(QString name, QString apiKey) = 0;
 	virtual void dailyForecast(double lon, double lat, QString apiKey, QString lang) = 0;
+	virtual void hourlyForecast(double lon, double lat, QString apiKey, QString lang) = 0;
 signals:
 	void weatherByCityIdFetched(QJsonDocument);
 	void weatherByCityIdErrorOccured(const ApiError);
@@ -71,6 +72,9 @@ signals:
 
 	void dailyForecastFetched(QJsonDocument);
 	void dailyForecastErrorOccured(const ApiError);
+
+	void hourlyForecastFetched(QJsonDocument);
+	void hourlyForecastErrorOccured(const ApiError);
 
 };
 
