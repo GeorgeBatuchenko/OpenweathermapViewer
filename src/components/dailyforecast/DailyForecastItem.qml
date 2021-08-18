@@ -109,11 +109,13 @@ Item {
                         anchors.rightMargin: 0
                         anchors.leftMargin: 0
 
+
                         Text {
                             anchors.verticalCenter: icon.verticalCenter
-                            width: 100
+                            width: 130
                             text: date
                         }
+
                         Image {
                             width: 50
                             height: 50
@@ -127,7 +129,7 @@ Item {
                             text: temperatureToText(temperature)
                         }
                         Item {
-                            width: 186
+                            width: 156
                             height: 50
                             Text {
                                 anchors.right: parent.right
