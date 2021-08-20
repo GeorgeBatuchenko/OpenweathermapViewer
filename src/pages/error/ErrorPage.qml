@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 Page {
     title: qsTr("Error")
@@ -15,7 +15,7 @@ Page {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Somthing went wrong. Try again."
+            text: qsTr("Somthing went wrong. Try again.")
         }
 
         Button {
@@ -25,4 +25,5 @@ Page {
             onClicked: retry()
         }
     }
+
 }

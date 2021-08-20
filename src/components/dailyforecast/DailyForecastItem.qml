@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtGraphicalEffects 1.12
+import QtGraphicalEffects 1.0
 
 import OpenWeatherMapViewer 1.0
 
@@ -89,11 +89,6 @@ Item {
                 delegate: Item {
                     id: itemDelegate
                     height: 50
-
-                    required property string date
-                    required property int temperature
-                    required property string iconUrl
-                    required property string description
 
                     Row {
                         id: row1

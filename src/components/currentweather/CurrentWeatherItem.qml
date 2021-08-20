@@ -1,6 +1,6 @@
 import QtQuick 2.4
-import QtQml 2.15
-import QtGraphicalEffects 1.12
+import QtQml 2.11
+import QtGraphicalEffects 1.0
 
 import OpenWeatherMapViewer 1.0
 

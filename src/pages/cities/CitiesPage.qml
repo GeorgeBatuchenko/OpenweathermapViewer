@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 import OpenWeatherMapViewer 1.0
 
@@ -68,12 +68,6 @@ Page {
             }
             height: 50
             color: "#c4c5c7"
-
-            required property int index
-            required property string cityName
-            required property int cityId
-            required property double cityLon
-            required property double cityLat
 
             Text {
                 anchors.left: parent.left

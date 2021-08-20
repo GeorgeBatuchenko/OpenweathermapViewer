@@ -3,7 +3,6 @@
 
 #include <QSettings>
 #include <QVariant>
-#include <QRecursiveMutex>
 #include <QScopedPointer>
 #include "abstractappsettings.h"
 

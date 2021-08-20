@@ -1,5 +1,4 @@
 #include "appsettings.h"
-#include <QMutexLocker>
 #include <QFile>
 
 AppSettings::AppSettings() :

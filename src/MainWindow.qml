@@ -1,5 +1,5 @@
-﻿import QtQuick 2.12
-import QtQuick.Controls 2.5
+﻿import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 import OpenWeatherMapViewer 1.0
 
@@ -15,18 +15,12 @@ ApplicationWindow {
     title: qsTr("OpenWheatherMap Viewer")
 
     function changeCity( cityId ) {
-        if (stackView.depth > 1) {
             stackView.pop()
-        }
     }
 
     function switchToPage( page ) {
-        if (stackView.depth > 1) {
-            stackView.pop()
-            stackView.push(page)
-        } else {
-            stackView.push(page)
-        }
+        stackView.pop()
+        stackView.push(page)
     }
 
     header: ToolBar {
@@ -54,26 +48,35 @@ ApplicationWindow {
     HomePage {
         id: homePage
         onErrorOccured: {
-            errorPage.sourcePage = homePage
-            switchToPage(errorPage)
+            if (stackView.currentItem != errorPage) {
+                errorPage.sourcePage = homePage
+                switchToPage(errorPage)
+            }
         }
     }
 
-     CitiesPage {
+    CitiesPage {
         id: citiesPage
         anchors.fill: parent
         onCityChanged: changeCity(selectedCityId)
         onErrorOccured: {
-            errorPage.sourcePage = citiesPage
-            switchToPage(errorPage)
+            if (stackView.currentItem != errorPage) {
+                errorPage.sourcePage = citiesPage
+                switchToPage(errorPage)
+            }
         }
     }
 
      ErrorPage {
          id: errorPage
-         anchors.fill: parent
+         anchors.left: parent.left
+         anchors.right: parent.right;
          onRetry: {
-             switchToPage(errorPage.sourcePage)
+             if (errorPage.sourcePage === homePage) {
+                 stackView.pop();
+             } else {
+                 switchToPage(errorPage.sourcePage)
+             }
              errorPage.sourcePage.updateModels()
          }
      }
@@ -90,6 +93,7 @@ ApplicationWindow {
                 text: qsTr("Choose city")
                 width: parent.width
                 onClicked: {
+                    stackView.pop();
                     stackView.push(citiesPage)
                     drawer.close()
                 }
@@ -102,4 +106,10 @@ ApplicationWindow {
         initialItem: homePage
         anchors.fill: parent
     }
+
+//    Component.onCompleted: {
+//        stackView.push(errorPage)
+//        stackView.push(errorPage2)
+//        console.log("SD ",stackView.depth)
+//    }
 }

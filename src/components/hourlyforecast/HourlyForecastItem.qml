@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtGraphicalEffects 1.12
+import QtGraphicalEffects 1.0
 
 import OpenWeatherMapViewer 1.0
 
@@ -94,10 +94,6 @@ Item {
                 delegate: Item {
                     width: 70
                     height: 70
-
-                    required property string time
-                    required property string iconUrl
-                    required property int temperature
 
                     Column {
                         Item {
