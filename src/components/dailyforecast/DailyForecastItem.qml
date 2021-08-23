@@ -58,6 +58,7 @@ Item {
                 id: itemHeader
                 height: 24
                 color: "#dd000000"
+                font.family: "Arial"
                 text: qsTr("Daily forecast")
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -69,11 +70,12 @@ Item {
             Text {
                 id: textLoading
                 color: "#dd000000"
+                font.family: "Arial"
+                font.pointSize: 12
                 text: qsTr("Loading...")
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: itemHeader.bottom
-                font.pointSize: 12
             }
 
             ListView {
@@ -100,6 +102,8 @@ Item {
                         Text {
                             anchors.verticalCenter: icon.verticalCenter
                             width: 130
+                            font.family: "Arial"
+                            font.pointSize: 12
                             text: date
                         }
 
@@ -113,6 +117,8 @@ Item {
                             id: textTemp
                             width: 50
                             anchors.verticalCenter: icon.verticalCenter
+                            font.family: "Arial"
+                            font.pointSize: 12
                             text: temperatureToText(temperature)
                         }
                         Item {
@@ -122,6 +128,8 @@ Item {
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: "#6e5e5e"
+                                font.family: "Arial"
+                                font.pointSize: 12
                                 text: description
                             }
                         }

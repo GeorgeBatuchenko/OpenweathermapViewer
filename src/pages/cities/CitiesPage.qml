@@ -75,6 +75,8 @@ Page {
                 anchors.right: parent.right
                 anchors.rightMargin: 8
                 anchors.verticalCenter: parent.verticalCenter
+                font.family: "Arial"
+                font.pointSize: 12
                 text: cityName
             }
 

@@ -15,6 +15,8 @@ Page {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
+            font.family: "Arial"
+            font.pointSize: 12
             text: qsTr("Somthing went wrong. Try again.")
         }
 

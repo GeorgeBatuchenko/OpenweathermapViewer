@@ -50,6 +50,7 @@ Item {
             Text {
                 id: textHeader
                 color: "#dd000000"
+                font.family: "Arial"
                 text: qsTr("Hourly forecast")
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -64,6 +65,7 @@ Item {
 
             Text {
                 id: textLoading
+                font.family: "Arial"
                 text: qsTr("Loading...")
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -107,6 +109,8 @@ Item {
                                 Text {
                                     width: 58
                                     height: 18
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: time
                                 }
                             }
@@ -124,6 +128,8 @@ Item {
                                 }
                                 Text {
                                     anchors.verticalCenter: icon.verticalCenter
+                                    font.family: "Arial"
+                                    font.pointSize: 12
                                     text: temperatureToText(temperature)
                                 }
                             }

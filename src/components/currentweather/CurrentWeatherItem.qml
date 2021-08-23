@@ -45,12 +45,15 @@ Item {
             Text {
                 id: fetchDateTime
                 color: "#eb6e4b"
+                font.family: "Arial"
+                font.pointSize: 12
                 text: model.fetchingDateTime
             }
 
             Text {
                 id: city
                 color: "#dd000000"
+                font.family: "Arial"
                 text:  model.city
                 font.bold: true
                 font.pointSize: 24
@@ -68,6 +71,7 @@ Item {
                     id: currentTemp
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#dd000000"
+                    font.family: "Arial"
                     text: itemRectangle.temperatureToText(model.temperature)
                     font.pointSize: 32
                 }
@@ -78,11 +82,13 @@ Item {
                         Text {
                             color: "#dd000000"
                             text: "Windblow:"
+                            font.family: "Arial"
                             font.pointSize: 12
                         }
                         Text {
                             id: windBlow
                             color: "#dd000000"
+                            font.family: "Arial"
                             text: model.windblow
                             font.pointSize: 12
                         }
@@ -91,12 +97,14 @@ Item {
                         spacing: 8
                         Text {
                             color: "#dd000000"
+                            font.family: "Arial"
                             text: "Humidity:"
                             font.pointSize: 12
                         }
                         Text {
                             id: humidity
                             color: "#dd000000"
+                            font.family: "Arial"
                             text: itemRectangle.humadityToText(model.humidity)
                             font.pointSize: 12
                         }
@@ -107,6 +115,7 @@ Item {
             Text {
                 id: aditionalInfo
                 color: "#dd000000"
+                font.family: "Arial"
                 text: model.description
                 wrapMode: Text.WordWrap
                 textFormat: Text.RichText
