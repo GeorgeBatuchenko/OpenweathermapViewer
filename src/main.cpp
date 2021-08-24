@@ -5,14 +5,10 @@
 #include <QLocale>
 #include <QTranslator>
 
-#include "modules/appsettings/appsettings.h"
 #include "components/currentweather/currentweathermodel.h"
 #include "components/dailyforecast/dailyforecastmodel.h"
 #include "components/hourlyforecast/hourlyforecastmodel.h"
 #include "pages/cities/citieslistmodel.h"
-
-#include <QUrlQuery>
-#include <QSettings>
 
 int main(int argc, char *argv[])
 {
