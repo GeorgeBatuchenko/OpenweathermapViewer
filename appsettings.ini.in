@@ -1,0 +1,5 @@
+[General]
+api_key=@OWM_API_KEY@
+api_lang=en
+app_lang=en_US
+city=@Variant(\0\0\0\x1c\0\0\0\x3\0\0\0\x6\0l\0\x61\0t\0\0\0\x6@I\xc1\x16\x87+\x2\f\0\0\0\x4\0i\0\x64\0\0\0\x2\0(W\x1f\0\0\0\x6\0l\0o\0n\0\0\0\x6\xbf\xc0\x16\xf0\x6\x8d\xb8\xbb)

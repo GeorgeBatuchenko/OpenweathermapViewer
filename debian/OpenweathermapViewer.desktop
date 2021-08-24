@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Open Weather Map Viewer
+GenericName=Weather Viewer
+Exec=/opt/OpenweathermapViewer/OpenweathermapViewer.sh
+Comment=View Weather from openweathermap.org
+Terminal=false
+Type=Application
+Categories=Office;
+Icon=openweathermapviwer
+GenericName[en_US]=Weather Viewer
