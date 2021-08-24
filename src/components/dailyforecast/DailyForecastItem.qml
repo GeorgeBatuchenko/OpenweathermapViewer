@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 import OpenWeatherMapViewer 1.0
 
 Item {
-    width: 450
+    width: 465
     height: 325
 
     property DailyForecastModel forecastModel
@@ -122,7 +122,7 @@ Item {
                             text: temperatureToText(temperature)
                         }
                         Item {
-                            width: 156
+                            width: 166
                             height: 50
                             Text {
                                 anchors.right: parent.right

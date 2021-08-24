@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 import OpenWeatherMapViewer 1.0
 
 Item {
-    width: 450
+    width: 465
     height: 135
 
     property HourlyForecastModel forecastModel;

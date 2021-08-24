@@ -9,8 +9,8 @@ import "pages/error"
 
 ApplicationWindow {
     id: window
-    width: 450
-    height: 900
+    width: 465
+    height: 930
     visible: true
     title: qsTr("OpenWheatherMap Viewer")
 
