@@ -2,10 +2,10 @@
 Version=1.0
 Name=Open Weather Map Viewer
 GenericName=Weather Viewer
-Exec=/opt/OpenweathermapViewer/OpenweathermapViewer.sh
+Exec=/opt/OpenweathermapViewer/OpenweathermapViewer
 Comment=View Weather from openweathermap.org
 Terminal=false
 Type=Application
-Categories=Office;
+Categories=Applications;
 Icon=openweathermapviwer
 GenericName[en_US]=Weather Viewer

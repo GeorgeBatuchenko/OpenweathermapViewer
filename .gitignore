@@ -2,3 +2,11 @@ build*
 *.user
 apikey.key
 *.key
+obj*
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/openweathermapviewer.substvars
+debian/openweathermapviewer/
+
+

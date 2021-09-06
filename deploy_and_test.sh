@@ -1,20 +1,20 @@
 #!/bin/bash
 
-mkdir -p /var/lock/OpenweathermapViwer
+mkdir -p /var/OpenweathermapViewer
 
-PROJECT_FULL_PATH=$(realpath .)
+PROJECT_FULL_PATH=$(realpath ../)
 
 xhost +si:localuser:root
 
-if test -f /var/lock/OpenweathermapViwer/owapideploy.lock ; then
+if test -f /var/OpenweathermapViewer/owapideploy.lock ; then
 	case $1 in
 		--upgrade-package)\
-			docker run --rm -t -i -v $PROJECT_FULL_PATH:/root/OpenweathermapViewer owapi-deploy &&\
-			docker run --rm -t -i -v $PROJECT_FULL_PATH:/root/OpenweathermapViewer -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --entrypoint /root/OpenweathermapViewer/deploy/update-package.sh owapi-test && exit 0;;
+			docker run --rm -t -i --privileged -v $PROJECT_FULL_PATH:/root owapi-deploy &&\
+			docker run --rm -t -i --privileged -v $PROJECT_FULL_PATH:/root -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --entrypoint /root/OpenweathermapViewer/scripts/update-package.sh owapi-test && exit 0;;
 		--build-package)\
-			docker run --rm -t -i -v $PROJECT_FULL_PATH:/root/OpenweathermapViewer owapi-deploy && exit 0;;
+			docker run --rm -t -i --privileged -v $PROJECT_FULL_PATH:/root owapi-deploy && exit 0;;
 		--reinstall-package)\
-			docker run --rm -t -i -v $PROJECT_FULL_PATH:/root/OpenweathermapViewer -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --entrypoint /root/OpenweathermapViewer/deploy/reinstall-package.sh owapi-test owapi-test && exit 0;;
+			docker run --rm -t -i --privileged -v $PROJECT_FULL_PATH:/root -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --entrypoint /root/OpenweathermapViewer/scripts/reinstall-package.sh owapi-test owapi-test && exit 0;;
 		-h | --help)\
 			echo Usage: &&\
 			echo deploy_and_test [option] &&\
@@ -22,16 +22,16 @@ if test -f /var/lock/OpenweathermapViwer/owapideploy.lock ; then
 			echo --build-package - only rebuild package &&\
 			echo --reinstall-package - reinstall deb package without apgrade dependencies &&\
 			echo No options - simply start test container  && exit 0;;
-		*) docker run --rm -t -i -v $PROJECT_FULL_PATH:/root/OpenweathermapViewer -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY owapi-test;;
+		*) docker run --rm -t -i --privileged -v $PROJECT_FULL_PATH:/root -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY owapi-test;
 	esac
 	exit 0
 fi
 
 docker image rm owapi-deploy
 docker image rm owapi-test
-docker build -t owapi-deploy -f deploy/deploy.dockerfile . &&\
-docker run --rm -t -i -v $PROJECT_FULL_PATH:/root/OpenweathermapViewer owapi-deploy &&\
-docker build -t owapi-test -f deploy/deploytest.dockerfile . &&\
-echo 1 > /var/lock/OpenweathermapViwer/owapideploy.lock &&\
-docker run --rm -t -i -v $PROJECT_FULL_PATH:/root/OpenweathermapViewer -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY owapi-test
+docker build -t owapi-deploy -f scripts/deploy.dockerfile . &&\
+docker run --rm -t -i --privileged -v $PROJECT_FULL_PATH:/root owapi-deploy &&\
+docker build -t owapi-test -f scripts/deploytest.dockerfile ../ &&\
+echo 1 > /var/OpenweathermapViewer/owapideploy.lock &&\
+docker run --rm -t -i --privileged -v $PROJECT_FULL_PATH:/root -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY owapi-test
 
