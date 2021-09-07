@@ -1,0 +1,12 @@
+Source: openweathermapviewer
+Section: Applications
+Priority: optional
+Maintainer: Georg Batuchenko <georg.batuchenko@gmail.com>
+Build-Depends: cmake, debhelper (>=11~), build-essential, qt5-default, qtdeclarative5-dev, qml-module-qtquick-controls, qml-module-qtquick-controls2, qttools5-dev
+Standards-Version: 4.1.4
+
+Package: openweathermapviewer
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}, qml-module-qtquick-controls, qml-module-qtquick-controls2, libcurl3-gnutls
+Description: Viewer for openweatherapi.org rest api.
